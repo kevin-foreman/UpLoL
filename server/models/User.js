@@ -1,5 +1,5 @@
-const router = require('express').Router();
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
 const Comment = require('./Comment');
 
 const UserSchema = new Schema(
@@ -31,6 +31,12 @@ const UserSchema = new Schema(
         'Password must contain 3-16 characters & a mix of letter characters and numeric characters',
       ],
     },
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Post',
+      },
+    ],
     comments: [
       {
         type: Schema.Types.ObjectId,
@@ -54,7 +60,7 @@ const UserSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
-    id: false,
+    // id: false,
   }
 );
 
@@ -63,6 +69,20 @@ UserSchema.pre('remove', function (next) {
   Comment.findOneAndDelete({ username: this.username }).exec();
   next();
 });
+
+// set up pre-save middleware to create password
+userSchema.pre('save', async function (next) {
+  if (this.isNew || this.isModified('password')) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+  next();
+});
+
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
 
 // add up all followed users
 UserSchema.virtual('followCount').get(function () {
