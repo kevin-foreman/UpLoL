@@ -1,39 +1,34 @@
-const router = require('express').Router();
-const { Schema, model, Types } = require('mongoose');
-const dateFormat = require('../utils/dateformat');
+const { Schema, model } = require('mongoose');
+const commentSchema = require('./Comment');
+const dateFormat = require('../utils/dateFormat');
 
-const PostSchema = new Schema(
+const postSchema = new Schema(
   {
-    thoughtText: {
+    imagekitId: {
       type: String,
-      required: 'Thought cannot be blank',
-      minlength: 1,
-      maxlength: 128,
     },
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (createdAt) => dateFormat(createdAt),
+      get: (timestamp) => dateFormat(timestamp),
     },
     username: {
       type: String,
-      required: 'A valid username must be used',
+      required: true,
     },
-    reactions: [ReactionSchema],
+    comments: [commentSchema],
   },
   {
     toJSON: {
-      virtuals: true,
       getters: true,
     },
-    id: false,
   }
 );
 
-ThoughtSchema.virtual('reactionCount').get(function () {
-  return this.reactions.length;
+postSchema.virtual('replyCount').get(function () {
+  return this.comments.length;
 });
 
-const Thought = model('Thought', ThoughtSchema);
+const Post = model('Post', postSchema);
 
-module.exports = Thought;
+module.exports = Post;
