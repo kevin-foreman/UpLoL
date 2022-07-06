@@ -26,7 +26,8 @@ const resolvers = {
       return User.findOne({ username })
         .select('-__v -password')
         .populate('posts')
-        .populate('following');
+        .populate('following')
+        .populate('followers');
     },
     posts: async (parent, { username }) => {
       const params = username ? { username } : {};
@@ -39,9 +40,10 @@ const resolvers = {
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email })
-        .select('-__v')
+        .select('-__v -password')
         .populate('posts')
-        .populate('following');
+        .populate('following')
+        .populate('followers');
       if (!user) {
         throw new AuthenticationError('Incorrect Credentials');
       }
@@ -61,29 +63,37 @@ const resolvers = {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
           new: true,
-        });
+        })
+          .select('-__v -password')
+          .populate('posts')
+          .populate('following')
+          .populate('followers');
       }
 
       throw new AuthenticationError('Not logged in');
     },
-    addPost: async (parent, args, context) => {
+    addPost: async (parent, { imagekitId }, context) => {
       if (context.user) {
         const post = await Post.create({
-          ...args,
+          imagekitId: imagekitId,
           username: context.user.username,
         });
-        await User.findByIdAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $push: { posts: post._id } },
           { new: true }
-        );
-        return post;
+        )
+          .select('-__v -password')
+          .populate('posts')
+          .populate('following')
+          .populate('followers');
+        return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in to post images');
     },
     addComment: async (parent, { postId, commentText }, context) => {
       if (context.user) {
-        const updatedPost = await Post.findByIdAndUpdate(
+        const updatedPost = await Post.findOneAndUpdate(
           { _id: postId },
           { $push: { comments: { commentText, username: context.username } } },
           { new: true }
@@ -94,27 +104,26 @@ const resolvers = {
     },
     removePost: async (parent, { postId }, context) => {
       if (context.user) {
-        const updatedUser = await User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $pull: { posts: { _id: postId } } },
-          { new: true }
-        );
-        await Post.findByIdAndDelete(postId);
-        return updatedUser;
+        await Post.findOneAndDelete({ _id: postId });
+        return User.findOne({ _id: context.user._id })
+          .select('-__v -password')
+          .populate('posts')
+          .populate('following')
+          .populate('followers');
       }
       throw new AuthenticationError('You need to be logged in');
     },
-    // addFollower: async (parent, { followerId }, context) => {
-    //   if (context.user) {
-    //     const updatedUser = await User.findByIdAndUpdate(
-    //       { _id: context.user._id },
-    //       { $addToSet: { followers: followerId } },
-    //       { new: true }
-    //     );
-    //     return updatedUser;
-    //   }
-    //   throw new AuthenticationError('You need to be logged in');
-    // },
+    removeComment: async (parent, { postId, commentId }, context) => {
+      if (context.user) {
+        const updatedPost = await Post.findByIdAndUpdate(
+          { _id: postId },
+          { $pull: { comments: { _id: commentId } } },
+          { new: true }
+        );
+        return updatedPost;
+      }
+      throw new AuthenticationError('You need to be logged in');
+    },
     followUser: async (parent, { userId }, context) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(

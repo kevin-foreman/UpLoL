@@ -88,6 +88,11 @@ userSchema.virtual('followerCount').get(function () {
   return this.followers.length;
 });
 
+// add up all posts
+userSchema.virtual('postCount').get(function () {
+  return this.posts.length;
+});
+
 const User = model('User', userSchema);
 
 module.exports = User;

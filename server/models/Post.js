@@ -6,6 +6,7 @@ const postSchema = new Schema(
   {
     imagekitId: {
       type: String,
+      required: true,
     },
     createdAt: {
       type: Date,
@@ -15,6 +16,11 @@ const postSchema = new Schema(
     username: {
       type: String,
       required: true,
+    },
+    likeCount: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
     comments: [commentSchema],
   },

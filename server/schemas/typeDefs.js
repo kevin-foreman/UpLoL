@@ -9,6 +9,7 @@ const typeDefs = gql`
     password: String
     followCount: Int
     followerCount: Int
+    postCount: Int
     posts: [Post]
     following: [User]
     followers: [User]
@@ -19,7 +20,8 @@ const typeDefs = gql`
     imagekitId: String
     createdAt: String
     username: String
-    replycount: Int
+    replyCount: Int
+    likeCount: Int
     comments: [Comment]
   }
 
@@ -55,8 +57,11 @@ const typeDefs = gql`
     addPost(imagekitId: ID!): User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): User
+    removeComment(postId: ID!, commentId: ID!): Post
     followUser(userId: ID!): User
     unfollowUser(userId: ID!): User
+    likePost(postId: ID!): Post
+    unlikePost(postId: ID!): Post
   }
 `;
 
