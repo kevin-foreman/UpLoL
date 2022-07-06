@@ -11,6 +11,7 @@ function UploadForm() {
     var file = document.querySelector('input[type=file]').files[0];
     var reader = new FileReader();
     reader.readAsDataURL(file);
+    // reader.readAsBinaryString(file);
     reader.onload = function () {
       console.log(reader.result);
       setForm({ image: reader.result });
@@ -29,15 +30,13 @@ function UploadForm() {
     }
   }
 
-  var newImage;
-  function displayImage() {}
-
   return (
     <div>
       <form>
         <label className='form-label' htmlFor='customFile'>
           Select a photo to upload
         </label>
+        <br />
         <input
           type='file'
           accept='.jpg,.png'
@@ -49,7 +48,11 @@ function UploadForm() {
           Submit
         </button>
       </form>
-      {form.image && <img alt='uploaded' src={form.image} />}
+      {/* {form.image && (
+        <div className='w-50 h-50 p-3'>
+          <img className='img-fluid' alt='uploaded' src={form.image} />
+        </div>
+      )} */}
     </div>
   );
 }
