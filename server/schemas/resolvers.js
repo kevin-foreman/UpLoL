@@ -121,31 +121,28 @@ const resolvers = {
           context.user._id,
           { $addToSet: { following: userId } },
           { new: true }
-        ).then(() => {
-          User.findByIdAndUpdate(
-            userId,
-            { $addToSet: { followers: context.user._id } },
-            { new: true }
-          );
-        });
+        );
+        await User.findByIdAndUpdate(
+          userId,
+          { $addToSet: { followers: context.user._id } },
+          { new: true }
+        );
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in');
     },
     unfollowUser: async (parent, { userId }, context) => {
-      console.log(context.user);
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
           context.user._id,
           { $pull: { following: userId } },
           { new: true }
-        ).then(() => {
-          User.findByIdAndUpdate(
-            userId,
-            { $pull: { followers: context.user._id } },
-            { new: true }
-          );
-        });
+        );
+        await User.findByIdAndUpdate(
+          userId,
+          { $pull: { followers: context.user._id } },
+          { new: true }
+        );
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in');
