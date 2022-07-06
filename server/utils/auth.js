@@ -1,7 +1,6 @@
 const path = require('path');
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config({ path: './.env' });
 // Update the auth middleware function to work with the GraphQL API.
-
 const jwt = require('jsonwebtoken');
 
 // set token secret and expiration date

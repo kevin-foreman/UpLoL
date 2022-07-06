@@ -1,4 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
+const ObjectId = require('mongodb').ObjectId;
 const { User, Post, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 
@@ -37,7 +38,10 @@ const resolvers = {
   },
   Mutation: {
     login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email })
+        .select('-__v')
+        .populate('posts')
+        .populate('following');
       if (!user) {
         throw new AuthenticationError('Incorrect Credentials');
       }
@@ -111,18 +115,37 @@ const resolvers = {
     //   }
     //   throw new AuthenticationError('You need to be logged in');
     // },
-    followUser: async (parent, { userID }, context) => {
+    followUser: async (parent, { userId }, context) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { following: userID } },
+          context.user._id,
+          { $addToSet: { following: userId } },
           { new: true }
-        );
-        await User.findByIdAndUpdate(
-          { _id: userId },
-          { $addToSet: { followers: context.user._id } },
+        ).then(() => {
+          User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { followers: context.user._id } },
+            { new: true }
+          );
+        });
+        return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in');
+    },
+    unfollowUser: async (parent, { userId }, context) => {
+      console.log(context.user);
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          context.user._id,
+          { $pull: { following: userId } },
           { new: true }
-        );
+        ).then(() => {
+          User.findByIdAndUpdate(
+            userId,
+            { $pull: { followers: context.user._id } },
+            { new: true }
+          );
+        });
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in');

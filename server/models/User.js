@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const Comment = require('./Comment');
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -54,12 +54,12 @@ const UserSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
-    // id: false,
+    id: false,
   }
 );
 
 // delete all comments if the user is deleted
-UserSchema.pre('remove', function (next) {
+userSchema.pre('remove', function (next) {
   Comment.findOneAndDelete({ username: this.username }).exec();
   next();
 });
@@ -79,15 +79,15 @@ userSchema.methods.isCorrectPassword = async function (password) {
 };
 
 // add up all followed users
-UserSchema.virtual('followCount').get(function () {
+userSchema.virtual('followCount').get(function () {
   return this.following.length;
 });
 
 // add up all users following
-UserSchema.virtual('followerCount').get(function () {
+userSchema.virtual('followerCount').get(function () {
   return this.followers.length;
 });
 
-const User = model('User', UserSchema);
+const User = model('User', userSchema);
 
 module.exports = User;

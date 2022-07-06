@@ -55,8 +55,8 @@ const typeDefs = gql`
     addPost(imagekitId: ID!): User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): User
-    # addFollower(followerId: ID!): User
-    followUser(userID: ID!): User
+    followUser(userId: ID!): User
+    unfollowUser(userId: ID!): User
   }
 `;
 
