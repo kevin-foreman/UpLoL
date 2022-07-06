@@ -17,11 +17,12 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    likeCount: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     comments: [commentSchema],
   },
   {
@@ -31,8 +32,14 @@ const postSchema = new Schema(
   }
 );
 
+// ad up all comments
 postSchema.virtual('replyCount').get(function () {
   return this.comments.length;
+});
+
+// add up all likes
+postSchema.virtual('likeCount').get(function () {
+  return this.likes.length;
 });
 
 const Post = model('Post', postSchema);

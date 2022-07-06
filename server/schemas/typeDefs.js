@@ -20,6 +20,7 @@ const typeDefs = gql`
     imagekitId: String
     createdAt: String
     username: String
+    likes: [User]
     replyCount: Int
     likeCount: Int
     comments: [Comment]

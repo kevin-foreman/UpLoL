@@ -80,7 +80,7 @@ const resolvers = {
         });
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $push: { posts: post._id } },
+          { $addToSet: { posts: post._id } },
           { new: true }
         )
           .select('-__v -password')
@@ -95,7 +95,11 @@ const resolvers = {
       if (context.user) {
         const updatedPost = await Post.findOneAndUpdate(
           { _id: postId },
-          { $push: { comments: { commentText, username: context.username } } },
+          {
+            $addToSet: {
+              comments: { commentText, username: context.username },
+            },
+          },
           { new: true }
         );
         return updatedPost;
@@ -153,6 +157,28 @@ const resolvers = {
           { new: true }
         );
         return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in');
+    },
+    likePost: async (parent, { postId }, context) => {
+      if (context.user) {
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: postId },
+          { $addToSet: { likes: context.user._id } },
+          { new: true }
+        );
+        return updatedPost;
+      }
+      throw new AuthenticationError('You need to be logged in');
+    },
+    unlikePost: async (parent, { postId }, context) => {
+      if (context.user) {
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: postId },
+          { $pull: { likes: context.user._id } },
+          { new: true }
+        );
+        return updatedPost;
       }
       throw new AuthenticationError('You need to be logged in');
     },
