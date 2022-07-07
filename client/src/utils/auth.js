@@ -11,7 +11,7 @@ class AuthService {
   loggedIn() {
     // check if there is a saved token and it's still valid
     const token = this.getToken();
-    // use type coercion to check ig token is NOT undefined and the token is NOT expired
+    // use type coercion to check if token is NOT undefined and the token is NOT expired
     return !!token && !this.isTokenExpired(token);
   }
 
@@ -21,9 +21,7 @@ class AuthService {
       const decoded = decode(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
-      } else {
-        return false;
-      }
+      } else return false;
     } catch (err) {
       return false;
     }

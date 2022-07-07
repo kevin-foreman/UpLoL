@@ -17,7 +17,7 @@ const resolvers = {
     },
     users: async () => {
       return User.find()
-        .select('-__v -password')
+        .select('-__v')
         .populate('posts')
         .populate('following')
         .populate('followers');
@@ -40,13 +40,14 @@ const resolvers = {
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email })
-        .select('-__v -password')
+        .select('-__v')
         .populate('posts')
         .populate('following')
         .populate('followers');
       if (!user) {
         throw new AuthenticationError('Incorrect Credentials');
       }
+      console.log(user);
       const correctPass = await user.isCorrectPassword(password);
       if (!correctPass) {
         throw new AuthenticationError('Incorrect Credentials');
