@@ -14,7 +14,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "dotenv": "^16.0.1",
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "dotenv": "^16.0.1"
+  },
+  "dependencies": {
+    "mdb-ui-kit": "^4.2.0"
   }
 }
