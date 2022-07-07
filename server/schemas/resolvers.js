@@ -72,10 +72,10 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    addPost: async (parent, { imagekitId }, context) => {
+    addPost: async (parent, { imageId }, context) => {
       if (context.user) {
         const post = await Post.create({
-          imagekitId: imagekitId,
+          imageId: imageId,
           username: context.user.username,
         });
         const updatedUser = await User.findOneAndUpdate(

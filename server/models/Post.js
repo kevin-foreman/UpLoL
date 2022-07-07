@@ -4,7 +4,7 @@ const dateFormat = require('../utils/dateFormat');
 
 const postSchema = new Schema(
   {
-    imagekitId: {
+    imageId: {
       type: String,
       required: true,
     },
