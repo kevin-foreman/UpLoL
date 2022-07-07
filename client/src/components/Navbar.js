@@ -1,7 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Auth from '../utils/auth';
 
-function Navigation(props) {
-  // const { currentTab, setCurrentTab } = props;
+function Navbar() {
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
 
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
@@ -21,80 +26,24 @@ function Navigation(props) {
         <div className='collapse navbar-collapse' id='navbarTogglerDemo02'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
             <li className='nav-item'>
-              {/* {currentTab === 'about' ? (
-                <a
-                  href='#about'
-                  className='nav-link disabled'
-                  onClick={() => setCurrentTab('about')}
-                >
-                  About Me
-                </a>
-              ) : (
-                <a
-                  href='#about'
-                  className='nav-link'
-                  onClick={() => setCurrentTab('about')}
-                >
-                  About Me
-                </a>
-              )} */}
+              <Link to='/'>Home</Link>
             </li>
             <li className='nav-item'>
-              {/* {currentTab === 'projects' ? (
-                <a
-                  href='#project'
-                  className='nav-link disabled'
-                  onClick={() => setCurrentTab('projects')}
-                >
-                  Portfolio
-                </a>
+              {Auth.loggedIn() ? (
+                <>
+                  <Link to='/profile'>Me</Link>
+                  <a href='/' onClick={logout}>
+                    Logout
+                  </a>
+                </>
               ) : (
-                <a
-                  href='#project'
-                  className='nav-link'
-                  onClick={() => setCurrentTab('projects')}
-                >
-                  Portfolio
-                </a>
-              )} */}
+                <>
+                  <p>Login/Signup</p>
+                </>
+              )}
             </li>
             <li className='nav-item'>
-              {/* {currentTab === 'contact' ? (
-                <a
-                  href='#contact'
-                  className='nav-link disabled'
-                  onClick={() => setCurrentTab('contact')}
-                >
-                  Contact
-                </a>
-              ) : (
-                <a
-                  href='#contact'
-                  className='nav-link'
-                  onClick={() => setCurrentTab('contact')}
-                >
-                  Contact
-                </a>
-              )} */}
-            </li>
-            <li className='nav-item'>
-              {/* {currentTab === 'resume' ? (
-                <a
-                  href='#resume'
-                  className='nav-link disabled'
-                  onClick={() => setCurrentTab('resume')}
-                >
-                  Resume
-                </a>
-              ) : (
-                <a
-                  href='#resume'
-                  className='nav-link'
-                  onClick={() => setCurrentTab('resume')}
-                >
-                  Resume
-                </a>
-              )} */}
+              {Auth.loggedIn() && <Link to='/following'>Following</Link>}
             </li>
           </ul>
         </div>
@@ -103,4 +52,4 @@ function Navigation(props) {
   );
 }
 
-export default Navigation;
+export default Navbar;
