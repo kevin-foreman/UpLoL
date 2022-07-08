@@ -7,10 +7,11 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id }).select(
-          '-__v -password'
-        );
-        // .populate('');
+        const userData = await User.findOne({ _id: context.user._id })
+          .select('-__v -password')
+          .populate('posts')
+          .populate('following')
+          .populate('followers');
         return userData;
       }
       throw new AuthenticationError('Not logged in');
@@ -74,6 +75,7 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     addPost: async (parent, { imageId }, context) => {
+      console.log('imageId: ', imageId);
       if (context.user) {
         const post = await Post.create({
           imageId: imageId,
@@ -108,6 +110,7 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in');
     },
     removePost: async (parent, { postId }, context) => {
+      console.log('Backend Deleting: ', postId);
       if (context.user) {
         await Post.findOneAndDelete({ _id: postId });
         return User.findOne({ _id: context.user._id })

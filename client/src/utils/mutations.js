@@ -43,9 +43,9 @@ export const SAVE_PICTURE = gql`
 `;
 
 // Again, this is tentative as well, based on how we want to design the server side
-export const REMOVE_PICTURE = gql`
-  mutation deletePicture($id: pictureId!) {
-    deletePicture(pictureId: $id) {
+export const REMOVE_POST = gql`
+  mutation removePost($postId: ID!) {
+    removePost(postId: $postId) {
       _id
     }
   }
