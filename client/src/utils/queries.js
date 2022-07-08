@@ -33,3 +33,37 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+export const QUERY_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      _id
+      name
+      username
+      email
+      profilePictureId
+      followCount
+      followerCount
+      postCount
+      posts {
+        _id
+        imageId
+        title
+        createdAt
+        username
+        replyCount
+        likeCount
+      }
+      following {
+        _id
+        name
+        username
+      }
+      followers {
+        _id
+        name
+        username
+      }
+    }
+  }
+`;
