@@ -19,6 +19,7 @@ const typeDefs = gql`
   type Post {
     _id: ID
     imageId: String
+    title: String
     createdAt: String
     username: String
     likes: [User]
@@ -56,7 +57,7 @@ const typeDefs = gql`
       password: String!
     ): Auth
     updateUser(name: String, profilePictureId: String): User
-    addPost(imageId: ID!): User
+    addPost(imageId: String!, title: String!): User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): User
     removeComment(postId: ID!, commentId: ID!): Post

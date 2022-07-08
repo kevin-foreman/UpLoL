@@ -39,10 +39,9 @@ export const REMOVE_POST = gql`
 `;
 
 export const UPLOAD_PICTURE = gql`
-  mutation addPost($imageId: ID!) {
-    addPost(imageId: $imageId) {
+  mutation addPost($imageId: String!, $title: String!) {
+    addPost(imageId: $imageId, title: $title) {
       _id
-      username
     }
   }
 `;

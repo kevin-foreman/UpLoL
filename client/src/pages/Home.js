@@ -1,10 +1,10 @@
 import React from 'react';
-import UploadForm from '../components/UploadForm';
+import PostCard from '../components/PostCard';
 
 const Home = () => {
   return (
     <>
-      <UploadForm />
+      Home
       {/* <div id='preview' className='preview'>
         <div style='display: none;'></div>
         <div>

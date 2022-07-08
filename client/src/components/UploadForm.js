@@ -17,9 +17,9 @@ function UploadForm() {
   // set the state for the title & file
   function handleForm(e) {
     if (e.target.name === 'file') {
-      setImageState({ file: e.target.files[0] });
+      setImageState({ ...imageState, file: e.target.files[0] });
     } else if (e.target.name === 'title') {
-      setImageState({ title: e.target.value });
+      setImageState({ ...imageState, title: e.target.value });
     }
     console.log(imageState);
   }
@@ -36,9 +36,6 @@ function UploadForm() {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'g61rj6le');
-    // for (var key of formData.entries()) {
-    //   console.log(key[0] + ', ' + key[1]);
-    // }
 
     // use an axios post request to submit the form to our api
     axios
@@ -49,6 +46,7 @@ function UploadForm() {
         uploadImage({
           variables: {
             imageId: response.data.public_id,
+            title: title,
           },
         }).then((graphqlResponse) => {
           window.location.reload();
@@ -83,12 +81,6 @@ function UploadForm() {
         />
         <button type='submit'>Post</button>
       </form>
-      {/* {form.image && (
-        <div className='w-50 h-50 p-3'>
-          <img className='img-fluid' alt='uploaded' src={form.image} />
-        </div>
-      )} */}
-      {/* {error && <p>{error}</p>} */}
     </div>
   );
 }

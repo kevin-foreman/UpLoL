@@ -14,6 +14,7 @@ export const QUERY_ME = gql`
       posts {
         _id
         imageId
+        title
         createdAt
         username
         replyCount

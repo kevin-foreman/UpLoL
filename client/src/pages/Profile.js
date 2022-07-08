@@ -7,6 +7,7 @@ import { QUERY_ME } from '../utils/queries';
 import { REMOVE_POST, UPDATE_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import UploadForm from '../components/UploadForm';
+import PostCard from '../components/PostCard';
 
 const Profile = () => {
   // get the username from the parameter
@@ -29,6 +30,9 @@ const Profile = () => {
   const { loading, data } = useQuery(QUERY_ME);
 
   const user = data?.me || {};
+  console.log(user);
+
+  if (loading) return <h1>Loading</h1>;
 
   // set the state for the title & file
   function handleForm(e) {
@@ -135,11 +139,8 @@ const Profile = () => {
     }
   }
 
-  if (loading) return <h1>Loading</h1>;
-
   return (
     <section className='h-100 gradient-custom-2'>
-      <h1>Profile</h1>
       <div className='container py-5 h-100'>
         <div className='row d-flex justify-content-center align-items-center h-100'>
           <div className='col col-lg-9 col-xl-7'>
@@ -215,9 +216,9 @@ const Profile = () => {
                 <div className='d-flex justify-content-between align-items-center mb-4'>
                   <p className='lead fw-normal mb-0'>{user.username}'s Posts</p>
                   <p className='mb-0'>
-                    <a href='#!' className='text-muted'>
+                    {/* <a href='#!' className='text-muted'>
                       Show all
-                    </a>
+                    </a> */}
                   </p>
                 </div>
 
@@ -226,14 +227,16 @@ const Profile = () => {
                   {user.posts.map((post) => (
                     <div className='col-6 mb-2' key={post._id}>
                       {/* if this is the current user's profile, allow them to delete a post by clicking on it */}
-                      <img
+                      {/* <img
                         src={`https://res.cloudinary.com/dzmr76die/image/upload/v1657169752/${post.imageId}.jpg`}
                         alt='User custom 1'
                         className='w-100 rounded-3'
                         href='#!'
                         data-mdb-toggle='modal'
                         data-mdb-target='#deleteModal'
-                      ></img>
+                      ></img> */}
+                      <PostCard post={post} />
+
                       {/* modal pops up when a picture is clicked */}
                       <div
                         className='modal fade'
