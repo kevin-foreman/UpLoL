@@ -13,7 +13,6 @@ import Home from './pages/Home';
 import Following from './pages/Following';
 import Profile from './pages/Profile';
 import SinglePost from './pages/SinglePost';
-import ProfileSettings from './pages/ProfileSettings';
 
 // create link to API
 const httpLink = createHttpLink({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useQuery, useMutation } from '@apollo/client';
@@ -13,6 +13,12 @@ const Profile = () => {
   //   console.log('Username: ', userParam);
   // }
 
+  // set up settings form state
+  const [formState, setFormState] = useState({
+    profilePicture: '',
+    name: '',
+  });
+
   // set up query to delete selected photo
   const [removePost] = useMutation(REMOVE_POST);
 
@@ -21,7 +27,15 @@ const Profile = () => {
 
   const user = data?.me || {};
 
-  // console.log(user);
+  // set the state for the title & file
+  function handleForm(e) {
+    if (e.target.name === 'file') {
+      setFormState({ file: e.target.files[0] });
+    } else if (e.target.name === 'name') {
+      setFormState({ title: e.target.value });
+    }
+    console.log(formState);
+  }
 
   // when a user confirms an image deletion, remove it form the db and refresh the webpage
   async function deletePost(e) {
@@ -75,16 +89,18 @@ const Profile = () => {
                     type='button'
                     className='btn btn-outline-dark'
                     data-mdb-ripple-color='dark'
+                    data-mdb-toggle='modal'
+                    data-mdb-target='#settingsModal'
                     style={{ zIndex: 1 }}
                   >
                     Edit profile
                   </button>
+                  {/* modal for user settings */}
                 </div>
                 <div className='ms-3' style={{ marginTop: '130px' }}>
                   {/* Replace this hard-coded value with dynamic content provided from user */}
                   <h5>{user.name}</h5>
-                  <br />
-                  <h5>{user.username}</h5>
+                  <h5>@{user.username}</h5>
                 </div>
               </div>
               <div
@@ -175,6 +191,74 @@ const Profile = () => {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* settings modal */}
+      <div
+        className='modal fade'
+        id='settingsModal'
+        tabIndex='-1'
+        aria-labelledby='settingsModalLabel'
+        aria-hidden='true'
+      >
+        <div className='modal-dialog'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title' id='settingsModalLabel'>
+                User Settings
+              </h5>
+              <button
+                type='button'
+                className='btn-close'
+                data-mdb-dismiss='modal'
+                aria-label='Close'
+              ></button>
+            </div>
+            <div className='modal-body'>
+              <form>
+                {/* name change input */}
+                <div className='form-outline mb-4'>
+                  <input
+                    type='text'
+                    id='name'
+                    name='name'
+                    className='form-control'
+                    placeholder={user.name}
+                    onChange={handleForm}
+                  />
+                  <label className='form-label' htmlFor='name'>
+                    Change your display name
+                  </label>
+                </div>
+                {/* profile picture input */}
+                <label className='form-label' htmlFor='file'>
+                  Change your profile picture
+                </label>
+                <br />
+                <input
+                  type='file'
+                  name='file'
+                  accept='.jpg'
+                  onChange={handleForm}
+                  className='form-control'
+                  id='file'
+                />
+
+                <div className='modal-footer'>
+                  <button
+                    type='button'
+                    className='btn btn-secondary'
+                    data-mdb-dismiss='modal'
+                  >
+                    Close
+                  </button>
+                  <button type='button' className='btn btn-primary'>
+                    Save changes
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
