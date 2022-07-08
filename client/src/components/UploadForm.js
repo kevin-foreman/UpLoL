@@ -51,7 +51,7 @@ function UploadForm() {
             imageId: response.data.public_id,
           },
         }).then((graphqlResponse) => {
-          console.log(graphqlResponse);
+          window.location.reload();
         });
       });
   }

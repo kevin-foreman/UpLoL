@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { REMOVE_POST } from '../utils/mutations';
+import { REMOVE_POST, UPDATE_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
+import UploadForm from '../components/UploadForm';
 
 const Profile = () => {
   // get the username from the parameter
@@ -21,6 +23,7 @@ const Profile = () => {
 
   // set up query to delete selected photo
   const [removePost] = useMutation(REMOVE_POST);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   // query the user data
   const { loading, data } = useQuery(QUERY_ME);
@@ -30,11 +33,93 @@ const Profile = () => {
   // set the state for the title & file
   function handleForm(e) {
     if (e.target.name === 'file') {
-      setFormState({ file: e.target.files[0] });
+      setFormState({ ...formState, profilePicture: e.target.files[0] });
     } else if (e.target.name === 'name') {
-      setFormState({ title: e.target.value });
+      setFormState({ ...formState, name: e.target.value });
     }
     console.log(formState);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { profilePicture, name } = formState;
+    // if a user is not logged in, do not process the form submission
+    if (!Auth.loggedIn()) {
+      console.log('not logged in!');
+      return;
+    }
+    // create a new FormData & add the file & upload preset
+    if (profilePicture && name) {
+      console.log('Changing name and pfp');
+      try {
+        const formData = new FormData();
+        formData.append('file', profilePicture);
+        formData.append('upload_preset', 'g61rj6le');
+
+        // use an axios post request to submit the form to our api
+        axios
+          .post(
+            `https://api.cloudinary.com/v1_1/dzmr76die/image/upload`,
+            formData
+          )
+          .then((response) => {
+            console.log(response);
+            // use the image id in the response to submit to the database
+            updateUser({
+              variables: {
+                profilePictureId: response.data.public_id,
+                name: name,
+              },
+            }).then((graphqlResponse) => {
+              console.log(graphqlResponse);
+              window.location.reload();
+            });
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (name) {
+      console.log('Changing name');
+      try {
+        updateUser({
+          variables: {
+            name: name,
+          },
+        }).then((graphqlResponse) => {
+          console.log(graphqlResponse);
+          window.location.reload();
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (profilePicture) {
+      console.log('Changing pfp');
+      try {
+        const formData = new FormData();
+        formData.append('file', profilePicture);
+        formData.append('upload_preset', 'g61rj6le');
+        // use an axios post request to submit the form to our api
+        axios
+          .post(
+            `https://api.cloudinary.com/v1_1/dzmr76die/image/upload`,
+            formData
+          )
+          .then((response) => {
+            console.log(response);
+            // use the image id in the response to submit to the database
+            updateUser({
+              variables: {
+                profilePictureId: response.data.public_id,
+              },
+            }).then((graphqlResponse) => {
+              console.log(graphqlResponse);
+              window.location.reload();
+            });
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   // when a user confirms an image deletion, remove it form the db and refresh the webpage
@@ -68,9 +153,9 @@ const Profile = () => {
                   style={{ width: '150px' }}
                 >
                   {/* Replace this hard-coded image with image the user provided */}
-                  {user.profilePicture ? (
+                  {user.profilePictureId ? (
                     <img
-                      src={`https://res.cloudinary.com/dzmr76die/image/upload/v1657305824/${user.profilePicture}.png`}
+                      src={`https://res.cloudinary.com/dzmr76die/image/upload/v1657305824/${user.profilePictureId}.jpg`}
                       alt='User custom'
                       className='img-fluid img-thumbnail mt-4 mb-2'
                       style={{ width: '150px', zIndex: 1 }}
@@ -123,6 +208,10 @@ const Profile = () => {
                 </div>
               </div>
               <div className='card-body p-4 text-black'>
+                {/* component for a user to upload posts from their profile */}
+                <UploadForm />
+                <br />
+
                 <div className='d-flex justify-content-between align-items-center mb-4'>
                   <p className='lead fw-normal mb-0'>{user.username}'s Posts</p>
                   <p className='mb-0'>
@@ -217,7 +306,7 @@ const Profile = () => {
               ></button>
             </div>
             <div className='modal-body'>
-              <form>
+              <form onSubmit={handleSubmit}>
                 {/* name change input */}
                 <div className='form-outline mb-4'>
                   <input
@@ -254,7 +343,7 @@ const Profile = () => {
                   >
                     Close
                   </button>
-                  <button type='button' className='btn btn-primary'>
+                  <button type='submit' className='btn btn-primary'>
                     Save changes
                   </button>
                 </div>

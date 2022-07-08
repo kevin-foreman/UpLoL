@@ -7,6 +7,7 @@ export const QUERY_ME = gql`
       name
       username
       email
+      profilePictureId
       followCount
       followerCount
       postCount

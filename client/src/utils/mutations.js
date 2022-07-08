@@ -29,19 +29,6 @@ export const ADD_USER = gql`
   }
 `;
 
-// This mutation is tentative based on how we want to design the server side (naming convention)
-export const SAVE_PICTURE = gql`
-  mutation addPicture($id: ID!) {
-    addPicture(userId: $id) {
-      _id
-      username
-      savedPictures {
-        pictureId
-      }
-    }
-  }
-`;
-
 // Again, this is tentative as well, based on how we want to design the server side
 export const REMOVE_POST = gql`
   mutation removePost($postId: ID!) {
@@ -56,6 +43,14 @@ export const UPLOAD_PICTURE = gql`
     addPost(imageId: $imageId) {
       _id
       username
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser($name: String, $profilePictureId: String) {
+    updateUser(name: $name, profilePictureId: $profilePictureId) {
+      _id
     }
   }
 `;

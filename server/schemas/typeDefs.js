@@ -7,6 +7,7 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
+    profilePictureId: String
     followCount: Int
     followerCount: Int
     postCount: Int
@@ -54,7 +55,7 @@ const typeDefs = gql`
       email: String!
       password: String!
     ): Auth
-    updateUser(name: String!): User
+    updateUser(name: String, profilePictureId: String): User
     addPost(imageId: ID!): User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): User

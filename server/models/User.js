@@ -31,6 +31,9 @@ const userSchema = new Schema(
         'Password must contain 3-16 characters & a mix of letter characters and numeric characters',
       ],
     },
+    profilePictureId: {
+      type: String,
+    },
     posts: [
       {
         type: Schema.Types.ObjectId,
