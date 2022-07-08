@@ -47,9 +47,9 @@ function App() {
             <Route path=':username' element={<Profile />} />
             <Route path='' element={<Profile />} />
           </Route>
-          <Route path='/profile/settings' element={<ProfileSettings />} />
+          {/* <Route path='/profile/settings' element={<ProfileSettings />} />
           <Route path='/following' element={<Following />} />
-          <Route path='/thought/:id' element={<SinglePost />} />
+          <Route path='/thought/:id' element={<SinglePost />} /> */}
         </Routes>
       </Router>
     </ApolloProvider>

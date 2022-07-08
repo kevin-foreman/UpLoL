@@ -1,9 +1,11 @@
 import React from 'react';
+import UploadForm from '../components/UploadForm';
 
 const Home = () => {
   return (
     <>
-      <div id='preview' className='preview'>
+      <UploadForm />
+      {/* <div id='preview' className='preview'>
         <div style='display: none;'></div>
         <div>
           <div
@@ -132,7 +134,7 @@ const Home = () => {
             </section>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

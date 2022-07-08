@@ -76,7 +76,7 @@ function UploadForm() {
         <input
           type='file'
           name='file'
-          accept='.jpg,.png'
+          accept='.jpg'
           onChange={handleForm}
           className='form-control'
           id='file'

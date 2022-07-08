@@ -33,7 +33,8 @@ function Navbar() {
             <li className='nav-item'>
               {Auth.loggedIn() ? (
                 <>
-                  <Link to='/profile'>Me</Link>
+                  <Link to='/profile'>My Profile</Link>
+                  <br />
                   <a href='/' onClick={logout}>
                     Logout
                   </a>
