@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { useMutation } from '@apollo/client';
+import axios from 'axios';
 import UserList from './UserList';
 import { REMOVE_POST } from '../utils/mutations';
 
@@ -11,12 +12,25 @@ function PostCard(props) {
 
   const [removePost] = useMutation(REMOVE_POST);
 
-  // when a user confirms an image deletion, remove it form the db and refresh the webpage
+  // when a user confirms an image deletion, remove it form the db then Cloudinary and refresh the webpage
   async function deletePost(e) {
+    // create a new FormData & add the file & upload preset
+    const formData = new FormData();
+    formData.append('public_id', e.target.dataset.id);
+    // formData.append('upload_preset', 'g61rj6le');
     try {
       await removePost({
         variables: { postId: e.target.dataset.id },
       });
+      await axios
+        .post(
+          `https://api.cloudinary.com/v1_1/dzmr76die/image/destroy`,
+          formData
+        )
+        .then((response) => {
+          console.log(response);
+        });
+
       window.location.reload();
     } catch (e) {
       console.log(e);

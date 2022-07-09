@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from './UserModal';
 
 function UserList(params) {
   // obtain the list of user's sent through and the type of list

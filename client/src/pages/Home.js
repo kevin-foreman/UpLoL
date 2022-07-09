@@ -7,7 +7,6 @@ const Home = () => {
   return (
     <>
       <h1>Home</h1>
-      <UserList></UserList>
       {/* <div id='preview' className='preview'>
         <div style='display: none;'></div>
         <div>
