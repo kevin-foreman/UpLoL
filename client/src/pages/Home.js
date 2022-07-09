@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PostCard from '../components/PostCard';
+import UserList from '../components/UserList';
 
 const Home = () => {
   return (
     <>
       <h1>Home</h1>
+      <UserList></UserList>
       {/* <div id='preview' className='preview'>
         <div style='display: none;'></div>
         <div>

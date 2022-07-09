@@ -1,32 +1,72 @@
-import { useState } from "react";
-import Modal from "./UserModal";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Modal from './UserModal';
 
-function UserList() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentUser, setCurrentUser] = useState();
+function UserList(params) {
+  // obtain the list of user's sent through and the type of list
+  const { user, listType } = params;
+  console.log(user);
 
-    const [users] = useState([
-        
-    ]);
-const toggleModal = (user, i) => {
-    setCurrentUser({...user, index: i});
-    setIsModalOpen(!isModalOpen);
-}
-
-    return (
-        <div>
-            {isModalOpen && (
-                <Modal onClose={toggleModal} currentUser={currentUser} />
-            )}
-            <div className="flex-row">
-                {currentUser.map((user, i) => (
-                    <ul>
-                        onClick={() => toggleModal(user, i)}
-                        key={user.name}
-                    </ul>
-                ))}
+  return (
+    <>
+      {/* The modal will be titled by whatever the user passes through as the typeList, allowing it to be used wherever needed */}
+      <div
+        className='modal fade'
+        id={`${listType}Modal`}
+        tabIndex='-1'
+        aria-labelledby={`${listType}Modal`}
+        aria-hidden='true'
+      >
+        <div className='modal-dialog'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title'>{listType}</h5>
+              <button
+                type='button'
+                className='btn-close'
+                data-mdb-dismiss='modal'
+                aria-label='Close'
+              ></button>
             </div>
+            {/* render the list of users */}
+            <div className='modal-body'>
+              {user.map((user) => {
+                return (
+                  <>
+                    <Link to={`/profile/${user.username}`} key={user.username}>
+                      {user.name} @{user.username}, {user.followerCount}{' '}
+                      Followers
+                    </Link>
+                    <br />
+                  </>
+                );
+              })}
+            </div>
+            <div className='modal-footer'>
+              <button
+                type='button'
+                className='btn btn-secondary'
+                data-mdb-dismiss='modal'
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-    );
-};
+      </div>
+    </>
+    // <div>
+    //   {isModalOpen && <Modal onClose={toggleModal} currentUser={currentUser} />}
+    //   <div className='flex-row'>
+    //     {/* {currentUser.map((user, i) => (
+    //       <ul>
+    //         onClick={() => toggleModal(user, i)}
+    //         key={user.name}
+    //       </ul>
+    //     ))} */}
+    //     {!isModalOpen && <button onClick={toggleModal}>Open</button>}
+    //   </div>
+    // </div>
+  );
+}
 export default UserList;

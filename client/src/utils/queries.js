@@ -19,16 +19,24 @@ export const QUERY_ME = gql`
         username
         replyCount
         likeCount
+        likes {
+          _id
+          name
+          username
+          followerCount
+        }
       }
       following {
         _id
         name
         username
+        followerCount
       }
       followers {
         _id
         name
         username
+        followerCount
       }
     }
   }
@@ -53,16 +61,24 @@ export const QUERY_USER = gql`
         username
         replyCount
         likeCount
+        likes {
+          _id
+          name
+          username
+          followerCount
+        }
       }
       following {
         _id
         name
         username
+        followerCount
       }
       followers {
         _id
         name
         username
+        followerCount
       }
     }
   }

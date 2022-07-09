@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { useMutation } from '@apollo/client';
+import UserList from './UserList';
 import { REMOVE_POST } from '../utils/mutations';
 
 function PostCard(props) {
@@ -36,7 +37,14 @@ function PostCard(props) {
         <h5 className='card-title'>{post.title}</h5>
       </div>
       <ul className='list-group list-group-light list-group-small'>
-        <li className='list-group-item px-4'>{post.likeCount} Likes</li>
+        <li
+          className='list-group-item px-4'
+          data-mdb-toggle='modal'
+          data-mdb-target='#LikesModal'
+        >
+          {post.likeCount} Likes
+        </li>
+        <UserList user={post.likes} listType='Likes' />
         <li className='list-group-item px-4'>{post.replyCount} Comments</li>
       </ul>
       {!userParam && (

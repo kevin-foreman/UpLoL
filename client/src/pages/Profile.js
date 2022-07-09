@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME, QUERY_USER } from '../utils/queries';
-import { REMOVE_POST, UPDATE_USER } from '../utils/mutations';
+import { UPDATE_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import UploadForm from '../components/UploadForm';
 import PostCard from '../components/PostCard';
+import UserList from '../components/UserList';
 
 const Profile = () => {
   // get the username from the parameter
@@ -189,17 +190,29 @@ const Profile = () => {
                 style={{ backgroundColor: '#f8f9fa' }}
               >
                 <div className='d-flex justify-content-end text-center py-1'>
-                  <div>
+                  <div className='px-3 border border-dark rounded-3'>
                     <p className='mb-1 h5'>{user.posts.length}</p>
                     <p className='small text-muted mb-0'>Photos</p>
                   </div>
-                  <div className='px-3'>
+
+                  <div
+                    className='px-3 border border-dark rounded-3'
+                    data-mdb-toggle='modal'
+                    data-mdb-target='#FollowersModal'
+                  >
                     <p className='mb-1 h5'>{user.followerCount}</p>
                     <p className='small text-muted mb-0'>Followers</p>
+                    <UserList user={user.followers} listType='Followers' />
                   </div>
-                  <div>
+
+                  <div
+                    className='px-3 border border-dark rounded-3'
+                    data-mdb-toggle='modal'
+                    data-mdb-target='#FollowingModal'
+                  >
                     <p className='mb-1 h5'>{user.followCount}</p>
                     <p className='small text-muted mb-0'>Following</p>
+                    <UserList user={user.following} listType='Following' />
                   </div>
                 </div>
               </div>
