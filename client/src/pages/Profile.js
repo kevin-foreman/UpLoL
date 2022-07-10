@@ -13,7 +13,6 @@ import UserList from '../components/UserList';
 const Profile = () => {
   // get the username from the parameter
   const { username: userParam } = useParams();
-  // console.log('Username Parameter: ', userParam);
 
   // set up settings form state
   const [formState, setFormState] = useState({
@@ -47,7 +46,6 @@ const Profile = () => {
     } else if (e.target.name === 'name') {
       setFormState({ ...formState, name: e.target.value });
     }
-    console.log(formState);
   }
 
   function handleSubmit(e) {
@@ -55,25 +53,22 @@ const Profile = () => {
     const { profilePicture, name } = formState;
     // if a user is not logged in, do not process the form submission
     if (!Auth.loggedIn()) {
-      console.log('not logged in!');
       return;
     }
     // create a new FormData & add the file & upload preset
     if (profilePicture && name) {
-      console.log('Changing name and pfp');
       try {
         const formData = new FormData();
         formData.append('file', profilePicture);
-        formData.append('upload_preset', 'g61rj6le');
+        formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
 
         // use an axios post request to submit the form to our api
         axios
           .post(
-            `https://api.cloudinary.com/v1_1/dzmr76die/image/upload`,
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_PROFILE_ID}/image/upload`,
             formData
           )
           .then((response) => {
-            console.log(response);
             // use the image id in the response to submit to the database
             updateUser({
               variables: {
@@ -81,7 +76,6 @@ const Profile = () => {
                 name: name,
               },
             }).then((graphqlResponse) => {
-              console.log(graphqlResponse);
               window.location.reload();
             });
           });
@@ -89,29 +83,26 @@ const Profile = () => {
         console.log(e);
       }
     } else if (name) {
-      console.log('Changing name');
       try {
         updateUser({
           variables: {
             name: name,
           },
         }).then((graphqlResponse) => {
-          console.log(graphqlResponse);
           window.location.reload();
         });
       } catch (e) {
         console.log(e);
       }
     } else if (profilePicture) {
-      console.log('Changing pfp');
       try {
         const formData = new FormData();
         formData.append('file', profilePicture);
-        formData.append('upload_preset', 'g61rj6le');
+        formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
         // use an axios post request to submit the form to our api
         axios
           .post(
-            `https://api.cloudinary.com/v1_1/dzmr76die/image/upload`,
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_PROFILE_ID}/image/upload`,
             formData
           )
           .then((response) => {
@@ -122,7 +113,6 @@ const Profile = () => {
                 profilePictureId: response.data.public_id,
               },
             }).then((graphqlResponse) => {
-              console.log(graphqlResponse);
               window.location.reload();
             });
           });
@@ -146,17 +136,17 @@ const Profile = () => {
                   className='ms-4 mt-5 d-flex flex-column'
                   style={{ width: '150px' }}
                 >
-                  {/* Replace this hard-coded image with image the user provided */}
+                  {/* Replace this hard-coded image with the image the user uploaded */}
                   {user.profilePictureId ? (
                     <img
-                      src={`https://res.cloudinary.com/dzmr76die/image/upload/v1657305824/${user.profilePictureId}.jpg`}
+                      src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/${user.profilePictureId}.jpg`}
                       alt='User custom'
                       className='img-fluid img-thumbnail mt-4 mb-2'
                       style={{ width: '150px', zIndex: 1 }}
                     />
                   ) : (
                     <img
-                      src='https://res.cloudinary.com/dzmr76die/image/upload/v1657305824/default-pfp_qbsiui.png'
+                      src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/default-pfp_qbsiui.png`}
                       alt='User custom'
                       className='img-fluid img-thumbnail mt-4 mb-2'
                       style={{ width: '150px', zIndex: 1 }}

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function UserList(params) {
@@ -54,18 +53,6 @@ function UserList(params) {
         </div>
       </div>
     </>
-    // <div>
-    //   {isModalOpen && <Modal onClose={toggleModal} currentUser={currentUser} />}
-    //   <div className='flex-row'>
-    //     {/* {currentUser.map((user, i) => (
-    //       <ul>
-    //         onClick={() => toggleModal(user, i)}
-    //         key={user.name}
-    //       </ul>
-    //     ))} */}
-    //     {!isModalOpen && <button onClick={toggleModal}>Open</button>}
-    //   </div>
-    // </div>
   );
 }
 export default UserList;

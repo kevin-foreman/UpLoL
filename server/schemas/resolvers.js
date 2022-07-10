@@ -112,7 +112,7 @@ const resolvers = {
     removePost: async (parent, { postId }, context) => {
       console.log('Backend Deleting: ', postId);
       if (context.user) {
-        await Post.findOneAndDelete({ _id: postId });
+        await Post.findOneAndDelete({ imageId: postId });
         return User.findOne({ _id: context.user._id })
           .select('-__v -password')
           .populate('posts')

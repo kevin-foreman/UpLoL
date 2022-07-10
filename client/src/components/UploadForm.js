@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { postImage } from '../utils/APi';
 import axios from 'axios';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_PICTURE } from '../utils/mutations';
@@ -74,7 +73,7 @@ function UploadForm() {
         <input
           type='file'
           name='file'
-          accept='.jpg'
+          accept='.jpg,.png'
           onChange={handleForm}
           className='form-control'
           id='file'

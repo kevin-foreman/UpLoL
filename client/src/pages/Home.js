@@ -1,7 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import PostCard from '../components/PostCard';
-import UserList from '../components/UserList';
 
 const Home = () => {
   return (
