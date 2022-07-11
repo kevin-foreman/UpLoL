@@ -37,6 +37,10 @@ const resolvers = {
     post: async (parent, { _id }) => {
       return Post.findOne({ _id }).populate('comments');
     },
+    isFollowing: async (parent, { _id }, context) => {
+      console.log('inside isFollowing');
+      console.log(_id);
+    },
   },
   Mutation: {
     login: async (parent, { email, password }) => {

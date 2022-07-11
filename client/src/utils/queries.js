@@ -83,3 +83,9 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
+export const IS_FOLLOWING = gql`
+  query isFollowing($id: ID!) {
+    isFollowing(_id: $id)
+  }
+`;

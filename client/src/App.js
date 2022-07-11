@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Following from './pages/Following';
 import Profile from './pages/Profile';
 import SinglePost from './pages/SinglePost';
+import NoMatch from './pages/NoMatch';
 
 // create link to API
 const httpLink = createHttpLink({
@@ -43,9 +44,9 @@ function App() {
             <Route path=':username' element={<Profile />} />
             <Route path='' element={<Profile />} />
           </Route>
-          {/* <Route path='/profile/settings' element={<ProfileSettings />} />
-          <Route path='/following' element={<Following />} />
-          <Route path='/thought/:id' element={<SinglePost />} /> */}
+          {/* <Route path='/following' element={<Following />} /> */}
+          {/* <Route path='/post/:id' element={<SinglePost />} /> */}
+          <Route path='*' element={<NoMatch />} />
         </Routes>
       </Router>
     </ApolloProvider>

@@ -46,6 +46,7 @@ const typeDefs = gql`
     user(username: String!): User
     posts(username: String): [Post]
     post(_id: ID!): Post
+    isFollowing(_id: ID!): Boolean
   }
 
   type Mutation {

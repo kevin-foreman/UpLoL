@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 function UserList(params) {
   // obtain the list of user's sent through and the type of list
   const { user, listType } = params;
-  console.log(user);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME, QUERY_USER } from '../utils/queries';
-import { UPDATE_USER } from '../utils/mutations';
+import { UPDATE_USER, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import UploadForm from '../components/UploadForm';
 import PostCard from '../components/PostCard';
@@ -19,9 +19,17 @@ const Profile = () => {
     profilePicture: '',
     name: '',
   });
+  // set up follow/unfollow button state
+  const [followButton, setFollowButton] = useState({
+    follow: '',
+  });
 
   // set up query to delete selected photo
   const [updateUser] = useMutation(UPDATE_USER);
+  // set up the mutation to follow a user
+  const [followUser] = useMutation(FOLLOW_USER);
+  // set up the mutation to unfollow a user
+  const [unfollowUser] = useMutation(UNFOLLOW_USER);
 
   // query the user data
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
@@ -29,7 +37,7 @@ const Profile = () => {
     variables: { username: userParam },
   });
 
-  const user = data?.me || data?.user || {};
+  const user = data?.me || data?.user || null;
   console.log(user);
 
   // if the user is on their own profile, change the url to show that, else, leave the username in the url
@@ -37,7 +45,15 @@ const Profile = () => {
     return <Navigate to='/profile' />;
   }
 
-  if (loading) return <h1>Loading</h1>;
+  if (loading) return <h1 className='text-center'>Loading</h1>;
+  // if the user stumbles upon a user that doesnt exist, redirect them home
+  if (!loading && !user) {
+    return <Navigate to='/' />;
+  }
+
+  function followSelectedUser() {}
+
+  function unfollowSelectedUser() {}
 
   // set the state for the title & file
   function handleForm(e) {
@@ -48,6 +64,7 @@ const Profile = () => {
     }
   }
 
+  // submit the settings form
   function handleSubmit(e) {
     e.preventDefault();
     const { profilePicture, name } = formState;
@@ -153,6 +170,19 @@ const Profile = () => {
                     />
                   )}
 
+                  {/* load the follow button if the user is logged in and the userParam is true */}
+                  {userParam && Auth.loggedIn() && (
+                    <>
+                      <button
+                        type='button'
+                        class='btn btn-primary'
+                        style={{ zIndex: 1 }}
+                      >
+                        Follow
+                      </button>
+                    </>
+                  )}
+                  {/* load the edit profile modal if the userParam is false */}
                   {!userParam && (
                     <>
                       {/* Use this button to link to our ProfileSettings page */}
@@ -166,7 +196,6 @@ const Profile = () => {
                       >
                         Edit profile
                       </button>
-                      {/* modal for user settings */}
                     </>
                   )}
                 </div>
