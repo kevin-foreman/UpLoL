@@ -84,8 +84,30 @@ export const QUERY_USER = gql`
   }
 `;
 
+<<<<<<< HEAD
 export const IS_FOLLOWING = gql`
   query isFollowing($id: ID!) {
     isFollowing(_id: $id)
   }
+=======
+export const QUERY_POST = gql`
+query post($id: ID!) {
+  post(_id: $id) {
+    _id
+    imageId
+    title
+    createdAt
+    username
+    replyCount
+    likeCount
+    likes {
+      _id
+      name
+      username
+      followerCount
+    }
+    
+  }
+}
+>>>>>>> 8b1260d4280cec924b820febace98a047c64ac0a
 `;
