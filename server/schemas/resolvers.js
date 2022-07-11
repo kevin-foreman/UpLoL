@@ -38,8 +38,17 @@ const resolvers = {
       return Post.findOne({ _id }).populate('comments');
     },
     isFollowing: async (parent, { _id }, context) => {
-      console.log('inside isFollowing');
-      console.log(_id);
+      if (context.user) {
+        console.log(_id, context.user._id);
+        const user = await User.findById({ _id }).populate('followers');
+        if (user.followers.find((user) => user._id == context.user._id)) {
+          console.log('user is following');
+          return true;
+        } else {
+          console.log('user is not following');
+          return false;
+        }
+      }
     },
   },
   Mutation: {
@@ -138,6 +147,11 @@ const resolvers = {
     },
     followUser: async (parent, { userId }, context) => {
       if (context.user) {
+        // check if the user being followed isn't the same as the current user
+        const user = await User.findById(userId);
+        if (user._id == context.user._id) {
+          throw new AuthenticationError('you cannot follow yourself');
+        }
         const updatedUser = await User.findByIdAndUpdate(
           context.user._id,
           { $addToSet: { following: userId } },

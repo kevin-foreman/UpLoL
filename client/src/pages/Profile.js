@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_ME, QUERY_USER } from '../utils/queries';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { QUERY_ME, QUERY_USER, IS_FOLLOWING } from '../utils/queries';
 import { UPDATE_USER, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import UploadForm from '../components/UploadForm';
@@ -21,8 +21,10 @@ const Profile = () => {
   });
   // set up follow/unfollow button state
   const [followButton, setFollowButton] = useState({
-    follow: '',
+    follow: false,
   });
+  // set the state for the followers list
+  const [followerState, setFollowerState] = useState([]);
 
   // set up query to delete selected photo
   const [updateUser] = useMutation(UPDATE_USER);
@@ -36,9 +38,25 @@ const Profile = () => {
     // using the username, query the user info
     variables: { username: userParam },
   });
+  // query if the logged in user is following the profile page user
+  const [getIsFollowing] = useLazyQuery(IS_FOLLOWING);
 
   const user = data?.me || data?.user || null;
-  console.log(user);
+  if (user) console.log(user);
+
+  // check if the user is being followed
+  useEffect(() => {
+    if (user) {
+      async function get() {
+        const isFollowing = await getIsFollowing({
+          variables: { id: user._id },
+        });
+        setFollowButton({ follow: isFollowing.data.isFollowing });
+      }
+      get();
+      setFollowerState(user.followers);
+    }
+  }, [user]);
 
   // if the user is on their own profile, change the url to show that, else, leave the username in the url
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
@@ -46,14 +64,10 @@ const Profile = () => {
   }
 
   if (loading) return <h1 className='text-center'>Loading</h1>;
-  // if the user stumbles upon a user that doesnt exist, redirect them home
+  // if the user stumbles upon a user that doesn't exist, redirect them home
   if (!loading && !user) {
     return <Navigate to='/' />;
   }
-
-  function followSelectedUser() {}
-
-  function unfollowSelectedUser() {}
 
   // set the state for the title & file
   function handleForm(e) {
@@ -171,14 +185,59 @@ const Profile = () => {
                   )}
 
                   {/* load the follow button if the user is logged in and the userParam is true */}
-                  {userParam && Auth.loggedIn() && (
+                  {userParam && Auth.loggedIn() && !followButton.follow && (
                     <>
                       <button
                         type='button'
                         class='btn btn-primary'
                         style={{ zIndex: 1 }}
+                        onClick={() => {
+                          followUser({
+                            variables: { userId: user._id },
+                          }).then(({ data }) => {
+                            // add the suer to the followers list
+                            setFollowerState([
+                              ...followerState,
+                              {
+                                name: data.followUser.name,
+                                username: data.followUser.username,
+                                followerCount: data.followUser.followCount,
+                              },
+                            ]);
+                          });
+                          setFollowButton({ follow: true });
+                        }}
                       >
                         Follow
+                      </button>
+                    </>
+                  )}
+                  {/* load the unfollow button if the user is being followed already */}
+                  {userParam && Auth.loggedIn() && followButton.follow && (
+                    <>
+                      <button
+                        type='button'
+                        class='btn btn-primary'
+                        style={{ zIndex: 1 }}
+                        onClick={() => {
+                          unfollowUser({
+                            variables: { userId: user._id },
+                          }).then(({ data }) => {
+                            // find the user in the state array and remove them
+                            setFollowerState([
+                              (state) => {
+                                state.filter((user) => {
+                                  return (
+                                    user.username !== data.unfollowUser.username
+                                  );
+                                });
+                              },
+                            ]);
+                          });
+                          setFollowButton({ follow: false });
+                        }}
+                      >
+                        Unfollow
                       </button>
                     </>
                   )}
@@ -219,9 +278,13 @@ const Profile = () => {
                     data-mdb-toggle='modal'
                     data-mdb-target='#FollowersModal'
                   >
-                    <p className='mb-1 h5'>{user.followerCount}</p>
+                    {followerState && (
+                      <p className='mb-1 h5'>{followerState.length}</p>
+                    )}
                     <p className='small text-muted mb-0'>Followers</p>
-                    <UserList user={user.followers} listType='Followers' />
+                    {followerState.length && (
+                      <UserList users={followerState} listType='Followers' />
+                    )}
                   </div>
 
                   <div
@@ -231,7 +294,9 @@ const Profile = () => {
                   >
                     <p className='mb-1 h5'>{user.followCount}</p>
                     <p className='small text-muted mb-0'>Following</p>
-                    <UserList user={user.following} listType='Following' />
+                    {user.following && (
+                      <UserList users={user.following} listType='Following' />
+                    )}
                   </div>
                 </div>
               </div>

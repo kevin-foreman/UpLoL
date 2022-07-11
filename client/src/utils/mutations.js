@@ -55,17 +55,21 @@ export const UPDATE_USER = gql`
 `;
 
 export const FOLLOW_USER = gql`
-  mutation Mutation($userId: ID!) {
+  mutation followUser($userId: ID!) {
     followUser(userId: $userId) {
-      _id
+      name
+      username
+      followCount
     }
   }
 `;
 
 export const UNFOLLOW_USER = gql`
-  mutation Mutation($userId: ID!) {
+  mutation unfollowUser($userId: ID!) {
     unfollowUser(userId: $userId) {
-      _id
+      name
+      username
+      followCount
     }
   }
 `;

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function UserList(params) {
   // obtain the list of user's sent through and the type of list
-  const { user, listType } = params;
+  const { users, listType } = params;
 
   return (
     <>
@@ -27,7 +27,7 @@ function UserList(params) {
             </div>
             {/* render the list of users */}
             <div className='modal-body'>
-              {user.map((user) => {
+              {users.map((user) => {
                 return (
                   <>
                     <Link to={`/profile/${user.username}`} key={user.username}>
