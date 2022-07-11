@@ -83,3 +83,24 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
+export const QUERY_POST = gql`
+query post($id: ID!) {
+  post(_id: $id) {
+    _id
+    imageId
+    title
+    createdAt
+    username
+    replyCount
+    likeCount
+    likes {
+      _id
+      name
+      username
+      followerCount
+    }
+    
+  }
+}
+`;
