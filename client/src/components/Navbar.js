@@ -87,7 +87,7 @@ function Navbar() {
               >
                 Signup
               </a>
-              {/* Signup modal dialog */}
+              {/* Signup modal */}
               <div
                 className='modal fade'
                 id='SignupModal'
@@ -127,7 +127,7 @@ function Navbar() {
                   </div>
                 </div>
               </div>
-              {/* Login modal dialog  */}
+              {/* Login modal */}
               <div
                 className='modal fade'
                 id='LoginModal'
