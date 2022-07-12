@@ -17,12 +17,16 @@ const SinglePost = () => {
     like: false,
   });
 
+  const [likeState, setLikeState] = useState([]);
+
   const [likePost] = useMutation(LIKE_POST);
 
   const post = data?.post || {};
   if (!loading) {
     console.log(post);
   }
+
+  const user = data?.user || {};
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -34,7 +38,7 @@ const SinglePost = () => {
         <div className='row align-items-center mb-4'>
           <div className='col-lg-7'>
             <img
-              // src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657169752/${user.profilePictureId}.jpg`}
+              src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657169752/${user.profilePictureId}.jpg`}
               className='rounded-circle me-2'
               height='35'
               alt='user profile'
@@ -58,36 +62,36 @@ const SinglePost = () => {
           <img
             src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657169752/${post.imageId}.jpg`}
             className='img-fluid shadow-1-strong rounded-5 mb-4'
-            alt=''
+            alt='Post uploaded'
             aria-controls='#picker-editor'
           />
         </div>
         {/* Must not be available if a user is not logged in */}
         {userParam && Auth.loggedIn() && !likeButton.like && (
-          <>
-            <button
-              type='button'
-              className='btn btn-primary'
-              style={{ zIndex: 1 }}
-              // onClick={() => {
-              //   likePost({
-              //     variables: { userId: user._id },
-              //   }).then(({ data }) => {
-              //     setLikeState([
-              //       ...likeState,
-              //       {
-              //         name: data.likePost.name,
-              //         username: data.likePost.username,
-              //         likeCount: data.likePost.likeCount,
-              //       },
-              //     ]);
-              //   });
-              //   setLikeButton({ like: true });
-              // }}
-            >
-              Like
-            </button>
-          </>
+        <>
+        <button
+        type='button'
+        className='btn btn-primary'
+        style={{ zIndex: 1 }}
+        onClick={() => {
+          likePost({
+            variables: { postId: post._id },
+          }).then(({ data }) => {
+            setLikeState([
+              ...likeState,
+              {
+                name: data.likePost.name,
+                username: data.likePost.username,
+                likeCount: data.likePost.likeCount,
+              },
+            ]);
+          });
+          setLikeButton({ like: true })
+        }}
+        >
+          Like
+        </button>
+        </>
         )}
         {/* Must not show up if a user is not logged in */}
         <div id='commentForm'>Comment Form</div>
