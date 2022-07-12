@@ -88,24 +88,25 @@ export const IS_FOLLOWING = gql`
   query isFollowing($id: ID!) {
     isFollowing(_id: $id)
   }
-`;
+  `;
 
 export const QUERY_POST = gql`
-  query post($id: ID!) {
-    post(_id: $id) {
+query post($id: ID!) {
+  post(_id: $id) {
+    _id
+    imageId
+    title
+    createdAt
+    username
+    replyCount
+    likeCount
+    likes {
       _id
-      imageId
-      title
-      createdAt
+      name
       username
-      replyCount
-      likeCount
-      likes {
-        _id
-        name
-        username
-        followerCount
-      }
+      followerCount
     }
+    
   }
+}
 `;
