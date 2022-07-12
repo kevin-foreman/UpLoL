@@ -157,32 +157,35 @@ const Profile = () => {
     <>
       <>
         <div className='row d-flex justify-content-center align-items-center'>
-          <div className='col-11'>
+          <div className='col-12'>
             <div className='card'>
-              <div
-                className='rounded-top text-white d-flex flex-row'
-                style={{ backgroundColor: '#222', height: '200px' }}
-              >
+              <div className='d-flex flex-row bg-dark'>
                 <div
-                  className='ms-4 mt-5 d-flex flex-column'
-                  style={{ width: '150px' }}
+                  className='mx-4 mb-2 d-flex flex-column'
+                  style={{ width: '250px' }}
                 >
                   {/* Replace this hard-coded image with the image the user uploaded */}
                   {user.profilePictureId ? (
                     <img
                       src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/${user.profilePictureId}.jpg`}
                       alt='User custom'
-                      className='img-fluid img-thumbnail mt-4 mb-2'
-                      style={{ width: '150px', height: '150px', zIndex: 1 }}
+                      className='img-fluid border border-light rounded rounded-3 border-5 mt-4 mb-2'
+                      // style={{ width: '150px', height: '150px', zIndex: 1 }}
                     />
                   ) : (
                     <img
                       src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/default-pfp_qbsiui.png`}
                       alt='User custom'
                       className='img-fluid img-thumbnail mt-4 mb-2'
-                      style={{ width: '150px', zIndex: 1 }}
+                      // style={{ width: '150px', zIndex: 1 }}
                     />
                   )}
+                  <div className='px-3 text-white text-center'>
+                    <h4>
+                      {user.name}{' '}
+                      <span className='small text-muted'>@{user.username}</span>
+                    </h4>
+                  </div>
 
                   {/* load the follow button if the user is logged in and the userParam is true */}
                   {userParam && Auth.loggedIn() && !followButton.follow && (
@@ -247,7 +250,7 @@ const Profile = () => {
                       {/* Use this button to link to our ProfileSettings page */}
                       <button
                         type='button'
-                        className='btn btn-dark'
+                        className='btn btn-dark border border-light'
                         // data-mdb-ripple-color='dark'
                         data-mdb-toggle='modal'
                         data-mdb-target='#settingsModal'
@@ -257,10 +260,6 @@ const Profile = () => {
                       </button>
                     </>
                   )}
-                </div>
-                <div className='ms-3' style={{ marginTop: '130px' }}>
-                  <h5>{user.name}</h5>
-                  <h5>@{user.username}</h5>
                 </div>
               </div>
               <div

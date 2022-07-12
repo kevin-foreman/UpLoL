@@ -12,7 +12,7 @@ function Navbar() {
   console.log(window.location.pathname);
 
   return (
-    <nav className='navbar navbar-expand-lg sticky-top navbar-dark bg-dark'>
+    <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container-fluid'>
         <Link to='/' className='navbar-brand'>
           <img
@@ -87,7 +87,7 @@ function Navbar() {
               >
                 Signup
               </a>
-              {/* Signup modal */}
+              {/* Signup modal dialog */}
               <div
                 className='modal fade'
                 id='SignupModal'
@@ -127,7 +127,7 @@ function Navbar() {
                   </div>
                 </div>
               </div>
-              {/* Login modal */}
+              {/* Login modal dialog  */}
               <div
                 className='modal fade'
                 id='LoginModal'
