@@ -81,7 +81,11 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <a href='https://github.com/ArchieDonaho'>
+                    <a
+                      href='https://github.com/ArchieDonaho'
+                      target='_blank'
+                      rel='noreferrer'
+                    >
                       <h5 className='fw-bold mb-3'>Archie Donaho</h5>
                     </a>
                     <p className='text-muted mb-0'>
@@ -95,7 +99,11 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <a href='https://github.com/kevin-foreman'>
+                    <a
+                      href='https://github.com/kevin-foreman'
+                      target='_blank'
+                      rel='noreferrer'
+                    >
                       <h5 className='fw-bold mb-3'>Kevin Foreman</h5>
                     </a>
                     <p className='text-muted mb-0'>
@@ -109,7 +117,11 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <a href='https://github.com/Zurdoc8'>
+                    <a
+                      href='https://github.com/Zurdoc8'
+                      target='_blank'
+                      rel='noreferrer'
+                    >
                       <h5 className='fw-bold mb-3'>Andres Garza</h5>
                     </a>
                     <p className='text-muted mb-0'>App design and creativity</p>

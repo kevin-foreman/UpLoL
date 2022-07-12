@@ -66,7 +66,7 @@ function UploadForm() {
           className='form-control'
           id='title'
         />
-        <label className='form-label' htmlFor='file'>
+        <label className='form-label mt-2' htmlFor='file'>
           Select a photo to upload
         </label>
         <br />
@@ -78,7 +78,9 @@ function UploadForm() {
           className='form-control'
           id='file'
         />
-        <button type='submit'>Post</button>
+        <button type='submit' className='btn btn-success mt-1 w-100'>
+          Post
+        </button>
       </form>
     </div>
   );

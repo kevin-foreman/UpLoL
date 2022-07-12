@@ -154,14 +154,14 @@ const Profile = () => {
   }
 
   return (
-    <section className='h-100 gradient-custom-2'>
-      <div className='container py-5 h-100'>
-        <div className='row d-flex justify-content-center align-items-center h-100'>
-          <div className='col col-lg-9 col-xl-7'>
+    <>
+      <>
+        <div className='row d-flex justify-content-center align-items-center'>
+          <div className='col-11'>
             <div className='card'>
               <div
                 className='rounded-top text-white d-flex flex-row'
-                style={{ backgroundColor: '#000', height: '200px' }}
+                style={{ backgroundColor: '#222', height: '200px' }}
               >
                 <div
                   className='ms-4 mt-5 d-flex flex-column'
@@ -173,7 +173,7 @@ const Profile = () => {
                       src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/${user.profilePictureId}.jpg`}
                       alt='User custom'
                       className='img-fluid img-thumbnail mt-4 mb-2'
-                      style={{ width: '150px', zIndex: 1 }}
+                      style={{ width: '150px', height: '150px', zIndex: 1 }}
                     />
                   ) : (
                     <img
@@ -217,7 +217,7 @@ const Profile = () => {
                     <>
                       <button
                         type='button'
-                        class='btn btn-primary'
+                        class='btn btn-info'
                         style={{ zIndex: 1 }}
                         onClick={() => {
                           unfollowUser({
@@ -247,8 +247,8 @@ const Profile = () => {
                       {/* Use this button to link to our ProfileSettings page */}
                       <button
                         type='button'
-                        className='btn btn-outline-dark'
-                        data-mdb-ripple-color='dark'
+                        className='btn btn-dark'
+                        // data-mdb-ripple-color='dark'
                         data-mdb-toggle='modal'
                         data-mdb-target='#settingsModal'
                         style={{ zIndex: 1 }}
@@ -267,44 +267,57 @@ const Profile = () => {
                 className='p-4 text-black'
                 style={{ backgroundColor: '#f8f9fa' }}
               >
-                <div className='d-flex justify-content-end text-center py-1'>
-                  <div className='px-3 border border-dark rounded-3'>
+                <div className='row text-center py-3'>
+                  <div className='col-md-5 col-sm-0'></div>
+
+                  <button
+                    data-mdb-ripple-color='info'
+                    className='border rounded-3 col-md-2'
+                  >
                     <p className='mb-1 h5'>{user.posts.length}</p>
                     <p className='small text-muted mb-0'>Photos</p>
-                  </div>
+                  </button>
 
                   {followerState.length ? (
-                    <div
-                      className='px-3 border border-dark rounded-3'
+                    <button
+                      data-mdb-ripple-color='info'
+                      className='btn border rounded-3 col-md-2'
                       data-mdb-toggle='modal'
                       data-mdb-target='#FollowersModal'
                     >
                       <p className='mb-1 h5'>{followerState.length}</p>
                       <p className='small text-muted mb-0'>Followers</p>
                       <UserList users={followerState} listType='Followers' />
-                    </div>
+                    </button>
                   ) : (
-                    <div className='px-3 border border-dark rounded-3'>
+                    <button
+                      data-mdb-ripple-color='info'
+                      className='btn border rounded-3 col-md-2'
+                    >
                       <p className='mb-1 h5'>{followerState.length}</p>
                       <p className='small text-muted mb-0'>Followers</p>
-                    </div>
+                    </button>
                   )}
 
                   {user.following.length ? (
-                    <div
-                      className='px-3 border border-dark rounded-3'
+                    <button
+                      data-mdb-ripple-color='info'
+                      className='btn border rounded-3 col-md-2'
                       data-mdb-toggle='modal'
                       data-mdb-target='#FollowingModal'
                     >
                       <p className='mb-1 h5'>{user.followCount}</p>
                       <p className='small text-muted mb-0'>Following</p>
                       <UserList users={user.following} listType='Following' />
-                    </div>
+                    </button>
                   ) : (
-                    <div className='px-3 border border-dark rounded-3'>
+                    <button
+                      data-mdb-ripple-color='info'
+                      className='btn border rounded-3 col-md-2'
+                    >
                       <p className='mb-1 h5'>{user.followCount}</p>
                       <p className='small text-muted mb-0'>Following</p>
-                    </div>
+                    </button>
                   )}
                 </div>
               </div>
@@ -312,6 +325,7 @@ const Profile = () => {
                 {/* component for a user to upload posts from their profile */}
                 {!userParam && (
                   <>
+                    <p className='lead fw-normal mb-1'>Upload</p>
                     <UploadForm />
                     <br />
                   </>
@@ -348,7 +362,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      </div>
+      </>
       {!userParam && (
         <>
           {/* settings modal */}
@@ -421,7 +435,7 @@ const Profile = () => {
           </div>
         </>
       )}
-    </section>
+    </>
   );
 };
 
