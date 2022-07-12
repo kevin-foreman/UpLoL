@@ -44,7 +44,7 @@ const Profile = () => {
   const user = data?.me || data?.user || null;
   if (user) console.log(user);
 
-  // check if the user is being followed
+  // check if the user is being followed & set the state accordingly
   useEffect(() => {
     if (user) {
       async function get() {
@@ -273,31 +273,39 @@ const Profile = () => {
                     <p className='small text-muted mb-0'>Photos</p>
                   </div>
 
-                  <div
-                    className='px-3 border border-dark rounded-3'
-                    data-mdb-toggle='modal'
-                    data-mdb-target='#FollowersModal'
-                  >
-                    {followerState && (
+                  {followerState.length ? (
+                    <div
+                      className='px-3 border border-dark rounded-3'
+                      data-mdb-toggle='modal'
+                      data-mdb-target='#FollowersModal'
+                    >
                       <p className='mb-1 h5'>{followerState.length}</p>
-                    )}
-                    <p className='small text-muted mb-0'>Followers</p>
-                    {followerState.length && (
+                      <p className='small text-muted mb-0'>Followers</p>
                       <UserList users={followerState} listType='Followers' />
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className='px-3 border border-dark rounded-3'>
+                      <p className='mb-1 h5'>{followerState.length}</p>
+                      <p className='small text-muted mb-0'>Followers</p>
+                    </div>
+                  )}
 
-                  <div
-                    className='px-3 border border-dark rounded-3'
-                    data-mdb-toggle='modal'
-                    data-mdb-target='#FollowingModal'
-                  >
-                    <p className='mb-1 h5'>{user.followCount}</p>
-                    <p className='small text-muted mb-0'>Following</p>
-                    {user.following && (
+                  {user.following.length ? (
+                    <div
+                      className='px-3 border border-dark rounded-3'
+                      data-mdb-toggle='modal'
+                      data-mdb-target='#FollowingModal'
+                    >
+                      <p className='mb-1 h5'>{user.followCount}</p>
+                      <p className='small text-muted mb-0'>Following</p>
                       <UserList users={user.following} listType='Following' />
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className='px-3 border border-dark rounded-3'>
+                      <p className='mb-1 h5'>{user.followCount}</p>
+                      <p className='small text-muted mb-0'>Following</p>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className='card-body p-4 text-black'>
