@@ -44,7 +44,7 @@ function App() {
             <Route path=':username' element={<Profile />} />
             <Route path='' element={<Profile />} />
           </Route>
-          {/* <Route path='/following' element={<Following />} /> */}
+          <Route path='/following' element={<Following />} />
           <Route path='/post/:id' element={<SinglePost />} />
           <Route path='*' element={<NoMatch />} />
         </Routes>
