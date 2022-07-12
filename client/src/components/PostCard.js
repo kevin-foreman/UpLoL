@@ -1,15 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useMutation } from '@apollo/client';
 import axios from 'axios';
-import UserList from './UserList';
 import { REMOVE_POST } from '../utils/mutations';
 import sha256 from 'crypto-js/sha256';
 
-function PostCard(props) {
-  const { post, index } = props;
+function PostCard({ post, index, showDeleteButton }) {
   const { username: userParam } = useParams();
   const [removePost] = useMutation(REMOVE_POST);
+  // console.log('index: ', index);
 
   // when a user confirms an image deletion, remove it form Cloudinary then after a success, remove it from the db and refresh the webpage
   async function deletePost(e) {
@@ -50,82 +50,104 @@ function PostCard(props) {
   }
 
   return (
-    <div className='card' style={{ width: '18rem' }}>
-      <img
-        src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657169752/${post.imageId}.jpg`}
-        className='card-img-top'
-        alt={post.title}
-        href='#!'
-        data-mdb-toggle='modal'
-        // each modal needs to be named differently using letters, so we convert the index number to the associated character
-        data-mdb-target={`#${String.fromCharCode(index + 65)}Modal`}
-      />
-      <div className='card-body'>
-        <h5 className='card-title'>{post.title}</h5>
-      </div>
-      <ul className='list-group list-group-light list-group-small'>
-        {post.likeCount.length ? (
-          <>
-            <li
-              className='list-group-item px-4'
-              data-mdb-toggle='modal'
-              data-mdb-target='#LikesModal'
+    <div className='col-md-4 col-sm-6 col-12 my-2'>
+      <div className='card'>
+        <div className='bg-image hover-zoom border-bottom'>
+          <h5 className='card-header text-center'>{post.title}</h5>
+          <img
+            className='card-img-top'
+            alt={post.title}
+            src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657169752/${post.imageId}.jpg`}
+          />
+          {/* use to link to singlePost page */}
+          <Link to={`/post/${post._id}`}>
+            <div className='mask'></div>
+          </Link>
+        </div>
+
+        <div className='card-body'>
+          <h6 className='card-subtitle mb-3 text-muted  text-center'>
+            By: {post.name}{' '}
+            <Link to={`/profile/${post.username}`}>@{post.username}</Link>
+          </h6>
+          <h6 className='card-subtitle mb-3 text-muted  text-center'>
+            {post.createdAt}
+          </h6>
+
+          <div className='small d-flex justify-content-center'>
+            <a href='#!' className='d-flex align-items-center me-3'>
+              <i className='far fa-thumbs-up me-2'></i>
+              <p className='mb-0'>{post.likeCount}</p>
+            </a>
+            <Link
+              to={`/post/${post._id}#commentForm`}
+              className='d-flex align-items-center me-3'
             >
-              {post.likeCount} Likes
-            </li>
-            <UserList user={post.likes} listType='Likes' />
-          </>
-        ) : (
-          <li className='list-group-item px-4'>{post.likeCount} Likes</li>
-        )}
-        <li className='list-group-item px-4'>{post.replyCount} Comments</li>
-      </ul>
-      {!userParam && (
-        <>
-          {/* Delete Post modal pops up when a picture is clicked */}
-          <div
-            className='modal fade'
-            id={`${String.fromCharCode(index + 65)}Modal`}
-            tabIndex='-1'
-            aria-labelledby='deleteModalLabel'
-            aria-hidden='true'
-          >
-            <div className='modal-dialog'>
-              <div className='modal-content'>
-                <div className='modal-header'>
-                  <button
-                    type='button'
-                    className='btn-close'
-                    data-mdb-dismiss='modal'
-                    aria-label='Close'
-                  ></button>
-                </div>
-                <div className='modal-body'>
-                  Are you sure you want to delete this post?
-                </div>
-                <div className='modal-footer'>
-                  <button
-                    type='button'
-                    className='btn btn-dark'
-                    // onClick={deletePost(post.imageId)}
-                    data-id={post.imageId}
-                    onClick={deletePost}
-                  >
-                    Yes
-                  </button>
-                  <button
-                    type='button'
-                    className='btn btn-dark'
-                    data-mdb-dismiss='modal'
-                  >
-                    No
-                  </button>
+              <i className='far fa-comment-dots me-2'></i>
+              <p className='mb-0'>{post.replyCount}</p>
+            </Link>
+            <a href='#!' className='d-flex align-items-center me-3'>
+              <i className='fab fa-twitter me-2'></i>
+            </a>
+          </div>
+          {/* render the delete button and delete modal if it is the user's profile */}
+          {!userParam && showDeleteButton && (
+            <>
+              <div className='text-center'>
+                <button
+                  className='btn project-card-btn'
+                  data-mdb-toggle='modal'
+                  // each modal needs to be named differently using letters, so we convert the index number passed from the profile to the associated character
+                  data-mdb-target={`#${String.fromCharCode(index + 65)}Modal`}
+                >
+                  Delete
+                </button>
+              </div>
+              {/* Delete Post modal pops up when a picture is clicked */}
+              <div
+                className='modal fade'
+                id={`${String.fromCharCode(index + 65)}Modal`}
+                tabIndex='-1'
+                aria-labelledby='deleteModalLabel'
+                aria-hidden='true'
+              >
+                <div className='modal-dialog'>
+                  <div className='modal-content'>
+                    <div className='modal-header'>
+                      <button
+                        type='button'
+                        className='btn-close'
+                        data-mdb-dismiss='modal'
+                        aria-label='Close'
+                      ></button>
+                    </div>
+                    <div className='modal-body'>
+                      Are you sure you want to delete this post?
+                    </div>
+                    <div className='modal-footer'>
+                      <button
+                        type='button'
+                        className='btn btn-dark'
+                        data-id={post.imageId}
+                        onClick={deletePost}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        type='button'
+                        className='btn btn-dark'
+                        data-mdb-dismiss='modal'
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </>
-      )}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -39,7 +39,7 @@ const SinglePost = () => {
         {/* Must not be available if a user is not logged in */}
         <div>Like Button</div>
         {/* Must not show up if a user is not logged in */}
-        <div>Comment Form</div>
+        <div id='commentForm'>Comment Form</div>
         <div>Comments</div>
       </div>
     </main>

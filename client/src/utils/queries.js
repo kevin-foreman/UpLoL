@@ -109,3 +109,23 @@ export const QUERY_POST = gql`
     }
   }
 `;
+
+export const QUERY_FOLLOWED_USER_POSTS = gql`
+  query posts {
+    posts {
+      _id
+      name
+      username
+      followerCount
+      posts {
+        _id
+        imageId
+        title
+        createdAt
+        username
+        replyCount
+        likeCount
+      }
+    }
+  }
+`;

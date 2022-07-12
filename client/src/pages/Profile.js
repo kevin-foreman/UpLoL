@@ -327,13 +327,23 @@ const Profile = () => {
                 </div>
 
                 {/* Each of these images will be dynamic based on what the user has recently posted */}
-                <div className='row g-2'>
+                {/* <div className='row g-2'>
                   {user.posts.map((post, index) => (
                     <div className='col-6 mb-2' key={post._id}>
-                      <PostCard post={post} index={index} />
+                      <ProfilePostCard post={post} index={index} />
                     </div>
+                  ))} */}
+                <div className='row mt-2'>
+                  {user.posts.map((post, index) => (
+                    <PostCard
+                      key={post._id}
+                      post={post}
+                      index={index}
+                      showDeleteButton={true}
+                    />
                   ))}
                 </div>
+                {/* </div> */}
               </div>
             </div>
           </div>
