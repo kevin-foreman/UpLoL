@@ -42,10 +42,8 @@ const resolvers = {
         console.log(_id, context.user._id);
         const user = await User.findById({ _id }).populate('followers');
         if (user.followers.find((user) => user._id == context.user._id)) {
-          console.log('user is following');
           return true;
         } else {
-          console.log('user is not following');
           return false;
         }
       }
