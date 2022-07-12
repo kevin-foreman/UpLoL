@@ -1,15 +1,14 @@
 import React from 'react';
-import Post from '../components/Post';
 
 const Home = () => {
   return (
     <>
       <div id='preview' className='preview'>
-        <div style= {{ display: 'none'}}></div>
+        <div style={{ display: 'none' }}></div>
         <div>
           <div
             data-draggable='true'
-            style= {{ position: 'relative'}}
+            style={{ position: 'relative' }}
             draggable='false'
             className=''
           >
@@ -24,7 +23,10 @@ const Home = () => {
                     <div className='col-lg-6 mb-5 mb-lg-0'>
                       <div
                         className='card cascading-right'
-                        style={{ background: 'hsla(0, 0%, 100%, 0.55)', backdropFilter: 'blur(30px)'}}
+                        style={{
+                          background: 'hsla(0, 0%, 100%, 0.55)',
+                          backdropFilter: 'blur(30px)',
+                        }}
                       >
                         <div className='card-body px-4 pb-5 pt-md-0 px-md-5 shadow-5'>
                           <h1 className='my-5 display-4 fw-bold ls-tight'>
@@ -56,7 +58,7 @@ const Home = () => {
           </div>
           <div
             data-draggable='true'
-            style= {{position: 'relative' }}
+            style={{ position: 'relative' }}
             draggable='false'
             className=''
           >
@@ -79,7 +81,9 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <a href="https://github.com/ArchieDonaho"><h5 className='fw-bold mb-3'>Archie Donaho</h5></a>
+                    <a href='https://github.com/ArchieDonaho'>
+                      <h5 className='fw-bold mb-3'>Archie Donaho</h5>
+                    </a>
                     <p className='text-muted mb-0'>
                       The mastermind behind this project.&nbsp;
                     </p>
@@ -91,7 +95,9 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <a href="https://github.com/kevin-foreman"><h5 className='fw-bold mb-3'>Kevin Foreman</h5></a>
+                    <a href='https://github.com/kevin-foreman'>
+                      <h5 className='fw-bold mb-3'>Kevin Foreman</h5>
+                    </a>
                     <p className='text-muted mb-0'>
                       The Repo-master and team navigator
                     </p>
@@ -103,7 +109,9 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <a href="https://github.com/Zurdoc8"><h5 className='fw-bold mb-3'>Andres Garza</h5></a>
+                    <a href='https://github.com/Zurdoc8'>
+                      <h5 className='fw-bold mb-3'>Andres Garza</h5>
+                    </a>
                     <p className='text-muted mb-0'>App design and creativity</p>
                   </div>
                 </div>
