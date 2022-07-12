@@ -7,19 +7,22 @@ const SinglePost = () => {
   const { id: postId } = useParams();
 
   const { loading, data } = useQuery(QUERY_POST, {
-    variables: { id: postId }
+    variables: { id: postId },
   });
 
   const post = data?.post || {};
+  if (!loading) {
+    console.log(post);
+  }
 
   if (loading) {
-    return <h1>Loading...</h1>
+    return <h1>Loading...</h1>;
   }
 
   return (
     <main>
       <div className='card mb-3'>
-        <p className='card-heaeder'>
+        <p className='card-header'>
           <span style={{ fontweight: 650 }} className='text-light'>
             {post.username}
           </span>{' '}
@@ -28,7 +31,6 @@ const SinglePost = () => {
         <div className='card-body'>
           <p>{post.postContent}</p>
         </div>
-
       </div>
     </main>
   );

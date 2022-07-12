@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <div className='container-fluid'>
-        <div className='navbar-brand'>{/* header logo goes here */}</div>
+        <div className='navbar-brand'>{/* header logo goes here */}UpLoL</div>
         <button
           className='navbar-toggler'
           type='button'
