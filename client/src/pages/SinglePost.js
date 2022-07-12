@@ -22,15 +22,25 @@ const SinglePost = () => {
   return (
     <main>
       <div className='card mb-3'>
-        <p className='card-header'>
-          <span style={{ fontweight: 650 }} className='text-light'>
+        <p className='card-heaeder'>
+          <span style={{ fontweight: '650' }} className='text-light'>
             {post.username}
           </span>{' '}
           posted on {post.createdAt}
+          <span>Posted by</span>
         </p>
         <div className='card-body'>
-          <p>{post.postContent}</p>
+          <img
+            src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657169752/${post.imageId}.jpg`}
+            className='card-img-top'
+            alt={post.title}
+          />
         </div>
+        {/* Must not be available if a user is not logged in */}
+        <div>Like Button</div>
+        {/* Must not show up if a user is not logged in */}
+        <div>Comment Form</div>
+        <div>Comments</div>
       </div>
     </main>
   );
