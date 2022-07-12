@@ -56,7 +56,7 @@ const Profile = () => {
       get();
       setFollowerState(user.followers);
     }
-  }, [user]);
+  }, [user, getIsFollowing]);
 
   // if the user is on their own profile, change the url to show that, else, leave the username in the url
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {

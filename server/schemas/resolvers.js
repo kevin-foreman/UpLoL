@@ -65,7 +65,6 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError('Incorrect Credentials');
       }
-      console.log(user);
       const correctPass = await user.isCorrectPassword(password);
       if (!correctPass) {
         throw new AuthenticationError('Incorrect Credentials');
@@ -92,7 +91,6 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     addPost: async (parent, args, context) => {
-      console.log(args);
       if (context.user) {
         const post = await Post.create({
           ...args,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_POST, QUERY_USER } from '../utils/queries';
-import { LIKE_POST } from '../utils/mutations'
+import { LIKE_POST } from '../utils/mutations';
 import { useParams } from 'react-router';
 import Auth from '../utils/auth';
 
@@ -50,7 +50,7 @@ const SinglePost = () => {
               className='text-dark'
               aria-controls='#picker-editor'
             >
-              ${user.username}
+              {/* ${user.username} */}
             </a>
           </div>
         </div>
@@ -64,30 +64,30 @@ const SinglePost = () => {
         </div>
         {/* Must not be available if a user is not logged in */}
         {userParam && Auth.loggedIn() && !likeButton.like && (
-        <>
-        <button
-        type='button'
-        className='btn btn-primary'
-        style={{ zIndex: 1 }}
-        onClick={() => {
-          likePost({
-            variables: { userId: user._id },
-          }).then(({ data }) => {
-            setLikeState([
-              ...likeState,
-              {
-                name: data.likePost.name,
-                username: data.likePost.username,
-                likeCount: data.likePost.likeCount,
-              },
-            ]);
-          });
-          setLikeButton({ like: true })
-        }}
-        >
-          Like
-        </button>
-        </>
+          <>
+            <button
+              type='button'
+              className='btn btn-primary'
+              style={{ zIndex: 1 }}
+              // onClick={() => {
+              //   likePost({
+              //     variables: { userId: user._id },
+              //   }).then(({ data }) => {
+              //     setLikeState([
+              //       ...likeState,
+              //       {
+              //         name: data.likePost.name,
+              //         username: data.likePost.username,
+              //         likeCount: data.likePost.likeCount,
+              //       },
+              //     ]);
+              //   });
+              //   setLikeButton({ like: true });
+              // }}
+            >
+              Like
+            </button>
+          </>
         )}
         {/* Must not show up if a user is not logged in */}
         <div id='commentForm'>Comment Form</div>

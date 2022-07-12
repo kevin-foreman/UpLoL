@@ -29,7 +29,6 @@ export const ADD_USER = gql`
   }
 `;
 
-// Again, this is tentative as well, based on how we want to design the server side
 export const REMOVE_POST = gql`
   mutation removePost($postId: ID!) {
     removePost(postId: $postId) {
@@ -70,6 +69,14 @@ export const UNFOLLOW_USER = gql`
       name
       username
       followCount
+    }
+  }
+`;
+
+export const LIKE_POST = gql`
+  mutation likePost($postId: ID!) {
+    likePost(postId: $postId) {
+      likeCount
     }
   }
 `;
