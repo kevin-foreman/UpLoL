@@ -3,13 +3,12 @@ import React from 'react';
 const Home = () => {
   return (
     <>
-      <h1>Up LoL</h1>
-      {/* <div id='preview' className='preview'>
-        <div style='display: none;'></div>
+      <div id='preview' className='preview'>
+        <div style= {{ display: 'none'}}></div>
         <div>
           <div
             data-draggable='true'
-            style='position: relative;'
+            style= {{ position: 'relative'}}
             draggable='false'
             className=''
           >
@@ -24,7 +23,7 @@ const Home = () => {
                     <div className='col-lg-6 mb-5 mb-lg-0'>
                       <div
                         className='card cascading-right'
-                        style=' background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px); '
+                        style={{ background: 'hsla(0, 0%, 100%, 0.55)', backdropFilter: 'blur(30px)'}}
                       >
                         <div className='card-body px-4 pb-5 pt-md-0 px-md-5 shadow-5'>
                           <h1 className='my-5 display-4 fw-bold ls-tight'>
@@ -37,28 +36,6 @@ const Home = () => {
                               <br />
                             </span>
                           </h1>
-                          <a
-                            className='btn btn-primary btn-lg py-3 px-5 mb-2 mb-md-0 me-md-2'
-                            href='#'
-                            role='button'
-                            aria-controls='#picker-editor'
-                            draggable='false'
-                            style='min-width: auto;'
-                          >
-                            Sign up<i className='fas fa-user-plus p-1 ps-2'></i>
-                          </a>
-                          <a
-                            className='btn btn-link btn-lg py-3 px-5 ripple-surface-primary'
-                            data-ripple-color='primary'
-                            href='#'
-                            role='button'
-                            aria-controls='#picker-editor'
-                            draggable='false'
-                            style='min-width: auto;'
-                          >
-                            Log In
-                            <i className='fas fa-sign-in-alt p-1 ps-2'></i>
-                          </a>
                         </div>
                       </div>
                     </div>
@@ -78,7 +55,7 @@ const Home = () => {
           </div>
           <div
             data-draggable='true'
-            style='position: relative;'
+            style= {{position: 'relative' }}
             draggable='false'
             className=''
           >
@@ -101,7 +78,7 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <h5 className='fw-bold mb-3'>Archie Donaho</h5>
+                    <a href="https://github.com/ArchieDonaho"><h5 className='fw-bold mb-3'>Archie Donaho</h5></a>
                     <p className='text-muted mb-0'>
                       The mastermind behind this project.&nbsp;
                     </p>
@@ -113,7 +90,7 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <h5 className='fw-bold mb-3'>Kevin Foreman</h5>
+                    <a href="https://github.com/kevin-foreman"><h5 className='fw-bold mb-3'>Kevin Foreman</h5></a>
                     <p className='text-muted mb-0'>
                       The Repo-master and team navigator
                     </p>
@@ -125,7 +102,7 @@ const Home = () => {
                         aria-controls='#picker-editor'
                       ></i>
                     </div>
-                    <h5 className='fw-bold mb-3'>Andres Garza</h5>
+                    <a href="https://github.com/Zurdoc8"><h5 className='fw-bold mb-3'>Andres Garza</h5></a>
                     <p className='text-muted mb-0'>App design and creativity</p>
                   </div>
                 </div>
@@ -133,7 +110,7 @@ const Home = () => {
             </section>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 };
