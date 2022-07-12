@@ -30,16 +30,22 @@ const resolvers = {
         .populate('following')
         .populate('followers');
     },
-    posts: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Post.find(params).sort({ createdAt: -1 });
+    posts: async (parent, params, context) => {
+      if (context.user) {
+        const users = await User.find({ followers: { _id: context.user._id } })
+          .select('-__v -password')
+          .populate('posts')
+          .populate('following')
+          .populate('followers');
+        return users;
+      }
+      // .sort({ createdAt: -1 })
     },
     post: async (parent, { _id }) => {
       return Post.findOne({ _id }).populate('comments');
     },
     isFollowing: async (parent, { _id }, context) => {
       if (context.user) {
-        console.log(_id, context.user._id);
         const user = await User.findById({ _id }).populate('followers');
         if (user.followers.find((user) => user._id == context.user._id)) {
           return true;

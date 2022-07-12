@@ -44,7 +44,7 @@ const typeDefs = gql`
     me: User
     users: [User]
     user(username: String!): User
-    posts(username: String): [Post]
+    posts: [User]
     post(_id: ID!): Post
     isFollowing(_id: ID!): Boolean
   }
