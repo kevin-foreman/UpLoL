@@ -207,7 +207,10 @@ const resolvers = {
           { _id: postId },
           { $addToSet: { likes: context.user._id } },
           { new: true }
-        );
+        )
+          .populate('comments')
+          .populate('likes')
+          .populate('user');
         return updatedPost;
       }
       throw new AuthenticationError('You need to be logged in');

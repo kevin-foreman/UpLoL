@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import Login from './Login';
 import Signup from './Signup';
+import logo from '../assets/logo.png';
 
 function Navbar() {
   const logout = (event) => {
@@ -14,13 +15,7 @@ function Navbar() {
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container-fluid'>
         <Link to='/' className='navbar-brand'>
-          <img
-            src='./logo.png'
-            class='me-2'
-            height='20'
-            alt='Logo'
-            loading='lazy'
-          />
+          <img src={logo} class='me-2' height='20' alt='Logo' loading='lazy' />
           UpLoL
         </Link>
         <button

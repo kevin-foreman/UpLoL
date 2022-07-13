@@ -84,17 +84,14 @@ function PostCard({ post, index, showDeleteButton }) {
           </h6>
 
           <div className='small d-flex justify-content-center'>
-            <a href='#!' className='d-flex align-items-center me-3'>
+            <div href='#!' className='d-flex align-items-center me-3'>
               <i className='far fa-thumbs-up me-2'></i>
               <p className='mb-0'>{post.likeCount}</p>
-            </a>
-            <Link
-              to={`/post/${post._id}#commentForm`}
-              className='d-flex align-items-center me-3'
-            >
+            </div>
+            <div className='d-flex align-items-center me-3'>
               <i className='far fa-comment-dots me-2'></i>
               <p className='mb-0'>{post.replyCount}</p>
-            </Link>
+            </div>
             <a
               href={`https://twitter.com/intent/tweet?url=${window.location.origin}/post/${post._id}&text=Check+Out+"${post.title}"+At:&via=${window.location.origin}/profile/${post.username}`}
               target='_blank'
