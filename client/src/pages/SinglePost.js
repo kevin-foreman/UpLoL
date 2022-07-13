@@ -119,7 +119,7 @@ const SinglePost = () => {
             className='btn border rounded-3 col-md-2'
           >
             <p className='mb-1 h5'>{commentsState.length}</p>
-            <p className='small text-muted mb-0'>Likes</p>
+            <p className='small text-muted mb-0'>Comments</p>
           </button>
         </div>
         {/* Must not be available if a user is not logged in */}
