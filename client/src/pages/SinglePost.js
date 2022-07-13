@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_POST, QUERY_USER } from '../utils/queries';
 import { LIKE_POST } from '../utils/mutations';
