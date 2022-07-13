@@ -1,7 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "engines": {
+    "node": "16.14.2"
+  },
+  "main": "server.js",
   "devDependencies": {
     "nodemon": "^2.0.19"
   },
