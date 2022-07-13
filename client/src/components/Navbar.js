@@ -15,10 +15,10 @@ function Navbar() {
       <div className='container-fluid'>
         <Link to='/' className='navbar-brand'>
           <img
-            src='https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp'
+            src='./logo.png'
             class='me-2'
             height='20'
-            alt='MDB Logo'
+            alt='Logo'
             loading='lazy'
           />
           UpLoL

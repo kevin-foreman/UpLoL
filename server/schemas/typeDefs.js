@@ -32,7 +32,13 @@ const typeDefs = gql`
     _id: ID
     commentText: String
     username: String
+    name: String
     createdAt: String
+  }
+
+  type SinglePost {
+    post: Post
+    user: User
   }
 
   type Auth {
@@ -45,7 +51,7 @@ const typeDefs = gql`
     users: [User]
     user(username: String!): User
     posts: [User]
-    post(_id: ID!): Post
+    post(_id: ID!): SinglePost
     isFollowing(_id: ID!): Boolean
   }
 

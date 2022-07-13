@@ -12,11 +12,15 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: moment,
       get: (createdAtVal) => {
-        moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a');
+        return moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a');
       },
     },
   },

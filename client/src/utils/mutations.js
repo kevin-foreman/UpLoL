@@ -80,3 +80,16 @@ export const LIKE_POST = gql`
     }
   }
 `;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($postId: ID!, $commentText: String!) {
+    addComment(postId: $postId, commentText: $commentText) {
+      comments {
+        _id
+        commentText
+        username
+        createdAt
+      }
+    }
+  }
+`;

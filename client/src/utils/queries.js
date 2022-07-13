@@ -16,8 +16,8 @@ export const QUERY_ME = gql`
         imageId
         title
         createdAt
-        username
         replyCount
+        username
         likeCount
         likes {
           _id
@@ -93,18 +93,32 @@ export const IS_FOLLOWING = gql`
 export const QUERY_POST = gql`
   query post($id: ID!) {
     post(_id: $id) {
-      _id
-      imageId
-      title
-      createdAt
-      username
-      replyCount
-      likeCount
-      likes {
+      post {
+        _id
+        imageId
+        title
+        createdAt
+        replyCount
+        likeCount
+        likes {
+          name
+          username
+          followerCount
+        }
+        comments {
+          _id
+          commentText
+          username
+          name
+          createdAt
+        }
+      }
+      user {
         _id
         name
         username
         followerCount
+        profilePictureId
       }
     }
   }

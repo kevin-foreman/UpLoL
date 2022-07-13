@@ -16,12 +16,15 @@ const postSchema = new Schema(
       type: Date,
       default: moment,
       get: (createdAtVal) => {
-        moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a');
+        return moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a');
       },
     },
     username: {
       type: String,
-      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
     likes: [
       {
