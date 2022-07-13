@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_POST, QUERY_USER } from '../utils/queries';
+import { QUERY_POST } from '../utils/queries';
 import { LIKE_POST } from '../utils/mutations';
 import { useParams } from 'react-router';
 import Auth from '../utils/auth';
 
 const SinglePost = () => {
-  const { id: postId, username: userParam } = useParams();
+  const { id: postId } = useParams();
 
-  const { loading, data } = useQuery(QUERY_POST, QUERY_USER, {
+  const { loading, data } = useQuery(QUERY_POST, {
     variables: { id: postId },
   });
 
@@ -67,7 +67,7 @@ const SinglePost = () => {
           />
         </div>
         {/* Must not be available if a user is not logged in */}
-        {userParam && Auth.loggedIn() && !likeButton.like && (
+        {Auth.loggedIn() && !likeButton.like && (
         <>
         <button
         type='button'
