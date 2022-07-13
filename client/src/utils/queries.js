@@ -111,6 +111,7 @@ export const QUERY_POST = gql`
           username
           name
           createdAt
+          profilePictureId
         }
       }
       user {

@@ -12,6 +12,9 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
+    profilePictureId: {
+      type: String,
+    },
     name: {
       type: String,
       required: true,

@@ -34,6 +34,7 @@ const typeDefs = gql`
     username: String
     name: String
     createdAt: String
+    profilePictureId: String
   }
 
   type SinglePost {

@@ -128,6 +128,7 @@ const resolvers = {
                 commentText: commentText,
                 username: user.username,
                 name: user.name,
+                profilePictureId: user.profilePictureId,
               },
             },
           },

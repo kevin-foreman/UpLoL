@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_POST } from '../utils/queries';
+import { QUERY_POST, QUERY_ME } from '../utils/queries';
 import { LIKE_POST, ADD_COMMENT } from '../utils/mutations';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,10 @@ const SinglePost = () => {
   const { loading, data } = useQuery(QUERY_POST, {
     variables: { id: postId },
   });
+  const { loading: userDataLoading, data: userData } = useQuery(QUERY_ME);
+  const myUserData = userData?.me || {};
+
+  // if (myUserData) console.log(myUserData);
 
   const [likeButtonState, setLikeButtonState] = useState({
     liked: false,
@@ -20,28 +24,27 @@ const SinglePost = () => {
   const [commentFormState, setCommentFormState] = useState({
     postId: postId,
     commentText: '',
+    profilePictureId: '',
   });
+  const [displayCommentsState, setDisplayCommentsState] = useState(false);
 
   const [likePost] = useMutation(LIKE_POST);
   const [addComment] = useMutation(ADD_COMMENT);
 
   var user;
   var post;
-  var displayComments = false;
   const postData = data?.post || {};
   if (!loading) {
     user = postData.user;
     post = postData.post;
-    if (post.replyCount > 0) displayComments = true;
     // console.log(user, post);
   }
 
   useEffect(() => {
     if (post) {
-      // console.log('post comments', post.comments);
       setCommentsState(post.comments);
-      if (commentsState.length) {
-        console.log('commentsState', commentsState);
+      if (post.comments.length) {
+        setDisplayCommentsState(true);
       }
     }
   }, [post]);
@@ -51,23 +54,10 @@ const SinglePost = () => {
   }
 
   function handleCommentForm(e) {
-    setCommentFormState({ ...commentFormState, commentText: e.target.value });
-  }
-
-  function commentFormSubmit(e) {
-    e.preventDefault();
-    const { postId, commentText } = commentFormState;
-    console.log(postId, commentText);
-    if (!Auth.loggedIn()) {
-      return;
-    }
-    addComment({
-      variables: {
-        postId: postId,
-        commentText: commentText,
-      },
-    }).then((graphqlResponse) => {
-      window.location.reload();
+    setCommentFormState({
+      ...commentFormState,
+      commentText: e.target.value,
+      profilePictureId: myUserData.profilePictureId,
     });
   }
 
@@ -156,7 +146,7 @@ const SinglePost = () => {
                       id='addANote'
                       className='form-control'
                       placeholder='Type comment...'
-                      onBlur={handleCommentForm}
+                      onChange={handleCommentForm}
                     />
                     <label className='form-label' for='addANote'>
                       say what you think...
@@ -165,11 +155,13 @@ const SinglePost = () => {
                       className='btn w-100 mt-2'
                       onClick={(e) => {
                         e.preventDefault();
-                        const { postId, commentText } = commentFormState;
+                        const { postId, commentText, profilePictureId } =
+                          commentFormState;
                         addComment({
                           variables: {
                             postId: postId,
                             commentText: commentText,
+                            // profilePictureId: profilePictureId,
                           },
                         }).then((graphqlResponse) => {
                           setCommentsState([
@@ -179,6 +171,7 @@ const SinglePost = () => {
                                 1
                             ],
                           ]);
+                          setDisplayCommentsState(true);
                         });
                       }}
                     >
@@ -187,10 +180,8 @@ const SinglePost = () => {
                   </form>
 
                   {/* display all comments in order from newest to oldest */}
-                  {displayComments &&
-                    // [...post.comments].reverse().map((comment) => {
+                  {displayCommentsState &&
                     [...commentsState].reverse().map((comment, index) => {
-                      // console.log(comment);
                       return (
                         <div key={index} className='card my-2'>
                           <div className='card-body'>
@@ -198,12 +189,21 @@ const SinglePost = () => {
 
                             <div className='d-flex justify-content-between'>
                               <div className='d-flex flex-row align-items-center'>
-                                <img
-                                  src='https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp'
-                                  alt='avatar'
-                                  width='25'
-                                  height='25'
-                                />
+                                {comment.profilePictureId ? (
+                                  <img
+                                    src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/${comment.profilePictureId}.jpg`}
+                                    alt='avatar'
+                                    width='25'
+                                    height='25'
+                                  />
+                                ) : (
+                                  <img
+                                    src={`https://res.cloudinary.com/${process.env.REACT_APP_PROFILE_ID}/image/upload/v1657305824/default-pfp_qbsiui.png`}
+                                    alt='avatar'
+                                    width='25'
+                                    height='25'
+                                  />
+                                )}
 
                                 <Link
                                   to={`/profile/${comment.username}`}
