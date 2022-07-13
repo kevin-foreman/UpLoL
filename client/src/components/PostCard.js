@@ -52,7 +52,10 @@ function PostCard({ post, index, showDeleteButton }) {
   return (
     <div className='col-md-4 col-sm-6 col-12 my-2'>
       <div className='card'>
-        <div className='bg-image hover-zoom border-bottom'>
+        <div
+          className='bg-image border-bottom ripple'
+          data-mdb-ripple-color='light'
+        >
           <h5 className='card-header text-center'>{post.title}</h5>
           <img
             className='card-img-top'
@@ -86,7 +89,12 @@ function PostCard({ post, index, showDeleteButton }) {
               <i className='far fa-comment-dots me-2'></i>
               <p className='mb-0'>{post.replyCount}</p>
             </Link>
-            <a href='#!' className='d-flex align-items-center me-3'>
+            <a
+              href={`https://twitter.com/intent/tweet?url=${window.location.origin}/post/${post._id}&text=Check+Out+"${post.title}"+At:&via=${window.location.origin}/profile/${post.username}`}
+              target='_blank'
+              rel='noreferrer'
+              className='d-flex align-items-center me-3'
+            >
               <i className='fab fa-twitter me-2'></i>
             </a>
           </div>

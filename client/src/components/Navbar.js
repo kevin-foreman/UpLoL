@@ -9,7 +9,6 @@ function Navbar() {
     event.preventDefault();
     Auth.logout();
   };
-  console.log(window.location.pathname);
 
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
