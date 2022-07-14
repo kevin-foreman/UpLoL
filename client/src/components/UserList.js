@@ -36,7 +36,8 @@ function UserList(params) {
                     key={user.username}
                     className='my-2 py-1 btn'
                   >
-                    {user.name} @{user.username}, {user.followerCount} Followers
+                    {user.name} <span>@{user.username}</span>,{' '}
+                    {user.followerCount} Followers
                   </Link>
                 );
               })}
