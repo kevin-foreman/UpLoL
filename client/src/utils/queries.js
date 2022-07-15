@@ -144,3 +144,17 @@ export const QUERY_FOLLOWED_USER_POSTS = gql`
     }
   }
 `;
+
+export const QUERY_TOP_POSTS = gql`
+  query topPosts {
+    topPosts {
+      _id
+      imageId
+      title
+      createdAt
+      username
+      replyCount
+      likeCount
+    }
+  }
+`;

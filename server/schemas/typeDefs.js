@@ -51,6 +51,7 @@ const typeDefs = gql`
     me: User
     users: [User]
     user(username: String!): User
+    topPosts: [Post]
     posts: [User]
     post(_id: ID!): SinglePost
     isFollowing(_id: ID!): Boolean
