@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import Login from './Login';
@@ -6,10 +6,26 @@ import Signup from './Signup';
 import logo from '../assets/logo.png';
 
 function Navbar() {
+  const [searchFormState, setSearchFormState] = useState('');
+
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
   };
+
+  function searchUser(e) {
+    e.preventDefault();
+    console.log(searchFormState);
+    console.log('searching...');
+    window.location.assign(
+      `${window.location.origin}/profile/${searchFormState}`
+    );
+  }
+
+  function handleSearchForm(e) {
+    console.log(e.target.value);
+    setSearchFormState(e.target.value);
+  }
 
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -174,6 +190,25 @@ function Navbar() {
               </div>
             </>
           )}
+          {/* user search form */}
+          <form className='d-flex input-group w-auto' onSubmit={searchUser}>
+            <input
+              type='search'
+              className='form-control rounded'
+              placeholder='Search @Username'
+              aria-label='Search'
+              aria-describedby='search-addon'
+              onChange={handleSearchForm}
+            />
+            <span
+              className='input-group-text border-0'
+              type='Submit'
+              onClick={searchUser}
+              id='search-addon'
+            >
+              <i className='fas fa-search'></i>
+            </span>
+          </form>
         </div>
       </div>
     </nav>
