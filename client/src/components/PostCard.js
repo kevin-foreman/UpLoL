@@ -9,8 +9,12 @@ import sha256 from 'crypto-js/sha256';
 function PostCard({ post, index, showDeleteButton }) {
   const { username: userParam } = useParams();
   const [removePost] = useMutation(REMOVE_POST);
-  // console.log('index: ', index);
-
+  // set up to only show the name & username if the person is NOT on a profile page
+  var showName = true;
+  if (window.location.pathname === '/profile') {
+    showName = false;
+  }
+  // console.log(post);
   // when a user confirms an image deletion, remove it form Cloudinary then after a success, remove it from the db and refresh the webpage
   async function deletePost(e) {
     // obtain the current Unix time in seconds
@@ -18,7 +22,6 @@ function PostCard({ post, index, showDeleteButton }) {
     // using the picture id & the current date, create an sha256 hash to be used for the delete request
     const parameters = `public_id=${e.target.dataset.id}&timestamp=${currentDate}`;
     const string = parameters.concat(process.env.REACT_APP_API_SECRET);
-    console.log(string);
     const signature = sha256(string).toString();
 
     // create a new FormData & add the required information
@@ -69,26 +72,26 @@ function PostCard({ post, index, showDeleteButton }) {
         </div>
 
         <div className='card-body'>
-          <h6 className='card-subtitle mb-3 text-muted  text-center'>
-            By: {post.name}{' '}
-            <Link to={`/profile/${post.username}`}>@{post.username}</Link>
-          </h6>
+          {showName && (
+            <h6 className='card-subtitle mb-3 text-muted  text-center'>
+              By: {post.name}{' '}
+              <Link to={`/profile/${post.username}`}>@{post.username}</Link>
+            </h6>
+          )}
+
           <h6 className='card-subtitle mb-3 text-muted  text-center'>
             {post.createdAt}
           </h6>
 
           <div className='small d-flex justify-content-center'>
-            <a href='#!' className='d-flex align-items-center me-3'>
+            <div href='#!' className='d-flex align-items-center me-3'>
               <i className='far fa-thumbs-up me-2'></i>
               <p className='mb-0'>{post.likeCount}</p>
-            </a>
-            <Link
-              to={`/post/${post._id}#commentForm`}
-              className='d-flex align-items-center me-3'
-            >
+            </div>
+            <div className='d-flex align-items-center me-3'>
               <i className='far fa-comment-dots me-2'></i>
               <p className='mb-0'>{post.replyCount}</p>
-            </Link>
+            </div>
             <a
               href={`https://twitter.com/intent/tweet?url=${window.location.origin}/post/${post._id}&text=Check+Out+"${post.title}"+At:&via=${window.location.origin}/profile/${post.username}`}
               target='_blank'
@@ -103,7 +106,7 @@ function PostCard({ post, index, showDeleteButton }) {
             <>
               <div className='text-center'>
                 <button
-                  className='btn project-card-btn'
+                  className='btn project-card-btn mt-2'
                   data-mdb-toggle='modal'
                   // each modal needs to be named differently using letters, so we convert the index number passed from the profile to the associated character
                   data-mdb-target={`#${String.fromCharCode(index + 65)}Modal`}

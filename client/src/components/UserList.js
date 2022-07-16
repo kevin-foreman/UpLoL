@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 function UserList(params) {
   // obtain the list of user's sent through and the type of list
   const { users, listType } = params;
+  // console.log(users);
 
   return (
     <>
@@ -28,14 +29,16 @@ function UserList(params) {
             {/* render the list of users */}
             <div className='modal-body'>
               {users.map((user) => {
+                console.log(user);
                 return (
-                  <>
-                    <Link to={`/profile/${user.username}`} key={user.username}>
-                      {user.name} @{user.username}, {user.followerCount}{' '}
-                      Followers
-                    </Link>
-                    <br />
-                  </>
+                  <Link
+                    to={`/profile/${user.username}`}
+                    key={user.username}
+                    className='my-2 py-1 btn'
+                  >
+                    {user.name} <span>@{user.username}</span>,{' '}
+                    {user.followerCount} Followers
+                  </Link>
                 );
               })}
             </div>

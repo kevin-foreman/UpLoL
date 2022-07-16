@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const commentSchema = require('./Comment');
-const dateFormat = require('../utils/dateFormat');
+const moment = require('moment');
 
 const postSchema = new Schema(
   {
@@ -14,12 +14,17 @@ const postSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
-      get: (timestamp) => dateFormat(timestamp),
+      default: moment,
+      get: (createdAtVal) => {
+        return moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a');
+      },
     },
     username: {
       type: String,
-      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
     likes: [
       {

@@ -30,7 +30,17 @@ const resolvers = {
         .populate('following')
         .populate('followers');
     },
-    posts: async (parent, params, context) => {
+    topPosts: async (parent, args, context) => {
+      console.log('getting top posts');
+      const posts = Post.find({})
+        .sort({ likeCount: -1, commentCount: -1 })
+        .populate('comments')
+        .populate('likes')
+        .populate('user');
+      // console.log(posts);
+      return posts;
+    },
+    posts: async (parent, args, context) => {
       if (context.user) {
         const users = await User.find({ followers: { _id: context.user._id } })
           .select('-__v -password')
@@ -42,7 +52,13 @@ const resolvers = {
       // .sort({ createdAt: -1 })
     },
     post: async (parent, { _id }) => {
-      return Post.findOne({ _id }).populate('comments');
+      const post = await Post.findOne({ _id })
+        .populate('comments')
+        .populate('likes')
+        .populate('user');
+      const user = await User.findOne({ username: post.username });
+      const SinglePost = { post, user };
+      return SinglePost;
     },
     isFollowing: async (parent, { _id }, context) => {
       if (context.user) {
@@ -91,11 +107,13 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     addPost: async (parent, args, context) => {
+      console.log(args);
       if (context.user) {
         const post = await Post.create({
           ...args,
           username: context.user.username,
         });
+        console.log(post);
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { posts: post._id } },
@@ -111,15 +129,24 @@ const resolvers = {
     },
     addComment: async (parent, { postId, commentText }, context) => {
       if (context.user) {
+        const user = await User.findOne({ _id: context.user._id });
         const updatedPost = await Post.findOneAndUpdate(
           { _id: postId },
           {
             $addToSet: {
-              comments: { commentText, username: context.username },
+              comments: {
+                commentText: commentText,
+                username: user.username,
+                name: user.name,
+                profilePictureId: user.profilePictureId,
+              },
             },
           },
           { new: true }
-        );
+        )
+          .populate('comments')
+          .populate('likes')
+          .populate('user');
         return updatedPost;
       }
       throw new AuthenticationError('You need to be logged in');
@@ -190,7 +217,10 @@ const resolvers = {
           { _id: postId },
           { $addToSet: { likes: context.user._id } },
           { new: true }
-        );
+        )
+          .populate('comments')
+          .populate('likes')
+          .populate('user');
         return updatedPost;
       }
       throw new AuthenticationError('You need to be logged in');

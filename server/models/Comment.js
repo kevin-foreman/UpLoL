@@ -1,5 +1,5 @@
 const { Schema } = require('mongoose');
-const dateFormat = require('../utils/dateFormat');
+const moment = require('moment');
 
 const commentSchema = new Schema(
   {
@@ -12,10 +12,19 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
+    profilePictureId: {
+      type: String,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
     createdAt: {
       type: Date,
-      default: Date.now,
-      get: (timestamp) => dateFormat(timestamp),
+      default: moment,
+      get: (createdAtVal) => {
+        return moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a');
+      },
     },
   },
   {

@@ -77,6 +77,27 @@ export const LIKE_POST = gql`
   mutation likePost($postId: ID!) {
     likePost(postId: $postId) {
       likeCount
+      likes {
+        _id
+        name
+        username
+        followerCount
+      }
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($postId: ID!, $commentText: String!) {
+    addComment(postId: $postId, commentText: $commentText) {
+      comments {
+        _id
+        commentText
+        username
+        createdAt
+        profilePictureId
+        name
+      }
     }
   }
 `;
