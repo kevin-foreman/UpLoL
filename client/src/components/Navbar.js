@@ -15,7 +15,13 @@ function Navbar() {
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container-fluid'>
         <Link to='/' className='navbar-brand'>
-          <img src={logo} class='me-2' height='20' alt='Logo' loading='lazy' />
+          <img
+            src={logo}
+            className='me-2'
+            height='20'
+            alt='Logo'
+            loading='lazy'
+          />
           UpLoL
         </Link>
         <button
@@ -31,6 +37,11 @@ function Navbar() {
         </button>
         <div className='collapse navbar-collapse' id='navbarTogglerDemo02'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/discover'>
+                Discover
+              </Link>
+            </li>
             <li className='nav-item'></li>
             {Auth.loggedIn() && (
               <>
@@ -87,7 +98,7 @@ function Navbar() {
                 id='SignupModal'
                 aria-hidden='true'
                 aria-labelledby='SignupModal'
-                tabindex='-1'
+                tabIndex='-1'
               >
                 <div className='modal-dialog modal-dialog-centered'>
                   <div className='modal-content'>
@@ -106,7 +117,7 @@ function Navbar() {
                       <Signup />
                     </div>
                     <div className='d-flex justify-content-center mb-4'>
-                      <div class='modal-dialog-centered'>
+                      <div className='modal-dialog-centered'>
                         <h6 className='mx-2'>Already have an account?</h6>
 
                         <button
@@ -127,7 +138,7 @@ function Navbar() {
                 id='LoginModal'
                 aria-hidden='true'
                 aria-labelledby='exampleModalToggleLabel1'
-                tabindex='-1'
+                tabIndex='-1'
               >
                 <div className='modal-dialog modal-dialog-centered'>
                   <div className='modal-content'>
@@ -146,7 +157,7 @@ function Navbar() {
                       <Login />
                     </div>
                     <div className='d-flex justify-content-center mb-4'>
-                      <div class='modal-dialog-centered'>
+                      <div className='modal-dialog-centered'>
                         <h6 className='mx-2'>Don't have an account?</h6>
 
                         <button

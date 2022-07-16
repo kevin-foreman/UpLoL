@@ -54,7 +54,7 @@ const Signup = () => {
               name='username'
               onChange={handleChange}
             />
-            <label className='form-label' for='form3Example1'>
+            <label className='form-label' htmlFor='form3Example1'>
               Username
             </label>
           </div>
@@ -70,7 +70,7 @@ const Signup = () => {
               name='name'
               onChange={handleChange}
             />
-            <label className='form-label' for='form3Example2'>
+            <label className='form-label' htmlFor='form3Example2'>
               Name
             </label>
           </div>
@@ -86,7 +86,7 @@ const Signup = () => {
           name='email'
           onChange={handleChange}
         />
-        <label className='form-label' for='form3Example3'>
+        <label className='form-label' htmlFor='form3Example3'>
           Email address
         </label>
       </div>
@@ -100,7 +100,7 @@ const Signup = () => {
           name='password'
           onChange={handleChange}
         />
-        <label className='form-label' for='form3Example4'>
+        <label className='form-label' htmlFor='form3Example4'>
           Password
         </label>
       </div>

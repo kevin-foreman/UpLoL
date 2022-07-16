@@ -24,7 +24,6 @@ const Home = () => {
           .slice(-3)
           .reverse()
       );
-      console.log(postState);
     }
   }, [posts]);
 

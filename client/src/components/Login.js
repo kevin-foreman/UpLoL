@@ -39,7 +39,7 @@ const Login = () => {
           name='email'
           onChange={handleChange}
         />
-        <label className='form-label' for='form2Example1'>
+        <label className='form-label' htmlFor='form2Example1'>
           Email address
         </label>
       </div>
@@ -53,7 +53,7 @@ const Login = () => {
           name='password'
           onChange={handleChange}
         />
-        <label className='form-label' for='form2Example2'>
+        <label className='form-label' htmlFor='form2Example2'>
           Password
         </label>
       </div>
