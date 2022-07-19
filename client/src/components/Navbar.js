@@ -15,11 +15,14 @@ function Navbar() {
 
   function searchUser(e) {
     e.preventDefault();
-    console.log(searchFormState);
-    console.log('searching...');
-    window.location.assign(
-      `${window.location.origin}/profile/${searchFormState}`
-    );
+    let username = searchFormState;
+    let array = username.split('');
+    // if the user put an @ in front of the username, remove it & search. Else, just search
+    if (array[0] === '@') {
+      array.shift();
+      username = array.join('');
+    }
+    window.location.assign(`${window.location.origin}/profile/${username}`);
   }
 
   function handleSearchForm(e) {
