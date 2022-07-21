@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import Login from './Login';
@@ -6,16 +6,41 @@ import Signup from './Signup';
 import logo from '../assets/logo.png';
 
 function Navbar() {
+  const [searchFormState, setSearchFormState] = useState('');
+
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
   };
 
+  function searchUser(e) {
+    e.preventDefault();
+    let username = searchFormState;
+    let array = username.split('');
+    // if the user put an @ in front of the username, remove it & search. Else, just search
+    if (array[0] === '@') {
+      array.shift();
+      username = array.join('');
+    }
+    window.location.assign(`${window.location.origin}/profile/${username}`);
+  }
+
+  function handleSearchForm(e) {
+    console.log(e.target.value);
+    setSearchFormState(e.target.value);
+  }
+
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container-fluid'>
         <Link to='/' className='navbar-brand'>
-          <img src={logo} class='me-2' height='20' alt='Logo' loading='lazy' />
+          <img
+            src={logo}
+            className='me-2'
+            height='20'
+            alt='Logo'
+            loading='lazy'
+          />
           UpLoL
         </Link>
         <button
@@ -31,6 +56,11 @@ function Navbar() {
         </button>
         <div className='collapse navbar-collapse' id='navbarTogglerDemo02'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/discover'>
+                Discover
+              </Link>
+            </li>
             <li className='nav-item'></li>
             {Auth.loggedIn() && (
               <>
@@ -87,7 +117,7 @@ function Navbar() {
                 id='SignupModal'
                 aria-hidden='true'
                 aria-labelledby='SignupModal'
-                tabindex='-1'
+                tabIndex='-1'
               >
                 <div className='modal-dialog modal-dialog-centered'>
                   <div className='modal-content'>
@@ -106,7 +136,7 @@ function Navbar() {
                       <Signup />
                     </div>
                     <div className='d-flex justify-content-center mb-4'>
-                      <div class='modal-dialog-centered'>
+                      <div className='modal-dialog-centered'>
                         <h6 className='mx-2'>Already have an account?</h6>
 
                         <button
@@ -127,7 +157,7 @@ function Navbar() {
                 id='LoginModal'
                 aria-hidden='true'
                 aria-labelledby='exampleModalToggleLabel1'
-                tabindex='-1'
+                tabIndex='-1'
               >
                 <div className='modal-dialog modal-dialog-centered'>
                   <div className='modal-content'>
@@ -146,7 +176,7 @@ function Navbar() {
                       <Login />
                     </div>
                     <div className='d-flex justify-content-center mb-4'>
-                      <div class='modal-dialog-centered'>
+                      <div className='modal-dialog-centered'>
                         <h6 className='mx-2'>Don't have an account?</h6>
 
                         <button
@@ -163,6 +193,25 @@ function Navbar() {
               </div>
             </>
           )}
+          {/* user search form */}
+          <form className='d-flex input-group w-auto' onSubmit={searchUser}>
+            <input
+              type='search'
+              className='form-control rounded'
+              placeholder='Search @Username'
+              aria-label='Search'
+              aria-describedby='search-addon'
+              onChange={handleSearchForm}
+            />
+            <span
+              className='input-group-text border-0'
+              type='Submit'
+              onClick={searchUser}
+              id='search-addon'
+            >
+              <i className='fas fa-search'></i>
+            </span>
+          </form>
         </div>
       </div>
     </nav>

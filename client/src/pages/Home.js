@@ -1,6 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import PostCard from '../components/PostCard';
+import { QUERY_TOP_POSTS } from '../utils/queries';
 
 const Home = () => {
+  const [postState, setPostState] = useState([]);
+  const { loading, data } = useQuery(QUERY_TOP_POSTS);
+  var posts = data?.topPosts || {};
+
+  useEffect(() => {
+    if (posts.length > 1) {
+      setPostState(
+        // sort the posts to obtain the top 4 most user-interacted posts
+        posts
+          .slice()
+          .sort(
+            (postA, postB) =>
+              postA.likeCount +
+              postA.replyCount -
+              postB.likeCount -
+              postB.replyCount
+          )
+          .slice(-3)
+          .reverse()
+      );
+    }
+  }, [posts]);
+
   return (
     <>
       <div id='preview' className='preview'>
@@ -56,6 +82,18 @@ const Home = () => {
               </section>
             </section>
           </div>
+          {/* Display the top posts */}
+          <div className='mx-1'>
+            <h1 className='mt-5 fw-bold text-center'>Top Posts</h1>
+            {postState.length && (
+              <div className='row mt-2'>
+                {postState.map((post) => (
+                  <PostCard key={post._id} post={post} />
+                ))}
+              </div>
+            )}
+          </div>
+
           <div
             data-draggable='true'
             style={{ position: 'relative' }}

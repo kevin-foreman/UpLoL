@@ -30,7 +30,17 @@ const resolvers = {
         .populate('following')
         .populate('followers');
     },
-    posts: async (parent, params, context) => {
+    topPosts: async (parent, args, context) => {
+      console.log('getting top posts');
+      const posts = Post.find({})
+        .sort({ likeCount: -1, commentCount: -1 })
+        .populate('comments')
+        .populate('likes')
+        .populate('user');
+      // console.log(posts);
+      return posts;
+    },
+    posts: async (parent, args, context) => {
       if (context.user) {
         const users = await User.find({ followers: { _id: context.user._id } })
           .select('-__v -password')

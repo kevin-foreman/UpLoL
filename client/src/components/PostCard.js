@@ -14,7 +14,7 @@ function PostCard({ post, index, showDeleteButton }) {
   if (window.location.pathname === '/profile') {
     showName = false;
   }
-  console.log(post);
+  // console.log(post);
   // when a user confirms an image deletion, remove it form Cloudinary then after a success, remove it from the db and refresh the webpage
   async function deletePost(e) {
     // obtain the current Unix time in seconds
