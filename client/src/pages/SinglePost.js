@@ -44,6 +44,7 @@ const SinglePost = () => {
       }
       const alreadyLiked = post.likes.find((likedUser) => {
         if (likedUser.username === myUserData.username) return true;
+        return false;
       });
       if (alreadyLiked) setLikeButtonState({ liked: true });
       // console.log(post.likes);
