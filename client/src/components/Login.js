@@ -15,8 +15,8 @@ const Login = () => {
       });
       const { token } = data?.login || {};
       Auth.login(token);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   };
 
