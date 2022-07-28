@@ -22,7 +22,7 @@
 - Cloudinary Image Hosting & API
 - Heroku (for Deployment)
 
-## Useage
+## Usage
 
 > No installation required, just launch application at https://uplol.herokuapp.com/ from any computer or smart device.
 
