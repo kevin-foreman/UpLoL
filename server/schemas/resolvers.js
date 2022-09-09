@@ -31,7 +31,7 @@ const resolvers = {
         .populate('followers');
     },
     topPosts: async (parent, args, context) => {
-      console.log('getting top posts');
+      // console.log('getting top posts');
       const posts = Post.find({})
         .sort({ likeCount: -1, commentCount: -1 })
         .populate('comments')
@@ -107,13 +107,13 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     addPost: async (parent, args, context) => {
-      console.log(args);
+      // console.log(args);
       if (context.user) {
         const post = await Post.create({
           ...args,
           username: context.user.username,
         });
-        console.log(post);
+        // console.log(post);
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { posts: post._id } },
@@ -152,7 +152,7 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in');
     },
     removePost: async (parent, { postId }, context) => {
-      console.log('Backend Deleting: ', postId);
+      // console.log('Backend Deleting: ', postId);
       if (context.user) {
         await Post.findOneAndDelete({ imageId: postId });
         return User.findOne({ _id: context.user._id })

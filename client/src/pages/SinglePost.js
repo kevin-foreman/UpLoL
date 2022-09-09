@@ -105,7 +105,7 @@ const SinglePost = () => {
           />
         </div>
         <div className='small d-flex justify-content-center'>
-          <button
+          <div
             data-mdb-ripple-color='info'
             className='btn border rounded-3 col-md-2'
             data-mdb-toggle='modal'
@@ -114,7 +114,7 @@ const SinglePost = () => {
             <p className='mb-1 h5'>{likeListState.length}</p>
             <p className='small text-muted mb-0'>Likes</p>
             <UserList users={likeListState} listType='Likes' />
-          </button>
+          </div>
           <button
             data-mdb-ripple-color='info'
             className='btn border rounded-3 col-md-2'
@@ -150,7 +150,7 @@ const SinglePost = () => {
                     variables: { postId: post._id },
                   }).then((graphqlresponse) => {
                     setLikeButtonState({ liked: true });
-                    console.log(graphqlresponse.data.likePost.likes[0]);
+                    // console.log(graphqlresponse.data.likePost.likes[0]);
                     setLikeListState([
                       ...likeListState,
                       {
@@ -181,10 +181,7 @@ const SinglePost = () => {
               <div id='commentForm' className='card-body p-4'>
                 {/* form to submit comments */}
                 {Auth.loggedIn() && (
-                  <form
-                    className='form-outline mb-4'
-                    // onSubmit={commentFormSubmit}
-                  >
+                  <form className='form-outline mb-4'>
                     <input
                       type='text'
                       id='addANote'
@@ -192,35 +189,42 @@ const SinglePost = () => {
                       placeholder='Type comment...'
                       onChange={handleCommentForm}
                     />
-                    <label className='form-label' for='addANote'>
+                    <label className='form-label' htmlFor='addANote'>
                       say what you think...
                     </label>
-                    <button
-                      className='btn w-100 mt-2'
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const { postId, commentText, profilePictureId } =
-                          commentFormState;
-                        addComment({
-                          variables: {
-                            postId: postId,
-                            commentText: commentText,
-                            // profilePictureId: profilePictureId,
-                          },
-                        }).then((graphqlResponse) => {
-                          setCommentsState([
-                            ...commentsState,
-                            graphqlResponse.data.addComment.comments[
-                              graphqlResponse.data.addComment.comments.length -
-                                1
-                            ],
-                          ]);
-                          setDisplayCommentsState(true);
-                        });
-                      }}
-                    >
-                      Submit
-                    </button>
+                    {commentFormState.commentText && (
+                      <button
+                        className='btn w-100 mt-2'
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const { postId, commentText, profilePictureId } =
+                            commentFormState;
+                          addComment({
+                            variables: {
+                              postId: postId,
+                              commentText: commentText,
+                              // profilePictureId: profilePictureId,
+                            },
+                          }).then((graphqlResponse) => {
+                            setCommentsState([
+                              ...commentsState,
+                              graphqlResponse.data.addComment.comments[
+                                graphqlResponse.data.addComment.comments
+                                  .length - 1
+                              ],
+                            ]);
+                            setDisplayCommentsState(true);
+                            setCommentFormState({
+                              ...commentFormState,
+                              commentText: '',
+                            });
+                            document.getElementById('addANote').value = '';
+                          });
+                        }}
+                      >
+                        Submit
+                      </button>
+                    )}
                   </form>
                 )}
 

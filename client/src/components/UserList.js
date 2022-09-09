@@ -29,7 +29,7 @@ function UserList(params) {
             {/* render the list of users */}
             <div className='modal-body'>
               {users.map((user) => {
-                console.log(user);
+                // console.log(user);
                 return (
                   <Link
                     to={`/profile/${user.username}`}
